@@ -16,6 +16,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -61,6 +62,17 @@ public class DataFormatUtil {
 	 */
 	public static Object mapToJson(Object javaObject) {
 		return JSONObject.toJSON(javaObject);
+	}
+	
+	/**
+	 * dependency: fastjson 
+	 * 将json字符串转化为model对象
+	 * @param text 
+	 * @param clazz 
+	 * @return
+	 */
+	public static <T> T jsonStringToObject(String text, Class<T> clazz) {
+		return JSON.parseObject(text, clazz);
 	}
 
 }

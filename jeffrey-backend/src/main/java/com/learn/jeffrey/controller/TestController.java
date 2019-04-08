@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 import com.learn.jeffrey.utils.DataFormatUtil;
 
 /**
@@ -24,20 +24,21 @@ import com.learn.jeffrey.utils.DataFormatUtil;
 public class TestController{
     
     @PostMapping("/h")
-    public Object hello(HttpServletRequest request) throws IOException, DocumentException{
+    public User hello(HttpServletRequest request) throws IOException, DocumentException{
     	
-        return DataFormatUtil.mapToJson(DataFormatUtil.xmlToMap(request));
+         return DataFormatUtil.jsonStringToObject(DataFormatUtil.mapToJson(DataFormatUtil.xmlToMap(request)).toString(),User.class);
+    
     }
 
    public static void main(String[] args) {
 	Map<Object, Object> map=new HashMap<>();
 	map.put("key1", "value1");
 	map.put("key2", 2);
-	map.put(3, 3);
+	map.put("id", 3);
+	map.put("name", 3);
 	
-	Map<Object, Object> map1=new HashMap<>();
-	map1.put("map1", map);
-	System.out.println(DataFormatUtil.mapToJson(map1));;
+	System.out.println(DataFormatUtil.mapToJson(map));;
+	User user=DataFormatUtil.jsonStringToObject(DataFormatUtil.mapToJson(map).toString(), User.class);
 	
 }
 }
