@@ -24,8 +24,9 @@ import com.learn.jeffrey.utils.DataFormatUtil;
 public class TestController{
     
     @PostMapping("/h")
-    public Map<String , String> hello(HttpServletRequest request) throws IOException, DocumentException{
-        return DataFormatUtil.xmlToMap(request);
+    public Object hello(HttpServletRequest request) throws IOException, DocumentException{
+    	
+        return DataFormatUtil.mapToJson(DataFormatUtil.xmlToMap(request));
     }
 
    public static void main(String[] args) {

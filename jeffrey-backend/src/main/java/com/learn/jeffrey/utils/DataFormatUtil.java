@@ -59,8 +59,8 @@ public class DataFormatUtil {
 	 * @param map
 	 * @return
 	 */
-	public static Object mapToJson(Map<Object, Object> map) {
-		return JSONObject.toJSON(map);
+	public static Object mapToJson(Object javaObject) {
+		return JSONObject.toJSON(javaObject);
 	}
 
 }
