@@ -126,7 +126,7 @@ public class DataFormatUtil {
 		String xml = iteratorXml(doc.getRootElement(),parentName,params,false);
 		return formatXML(xml);
 	}
-
+	
 	/**
 	 * 
 	 * MapToXml循环遍历创建xml节点
