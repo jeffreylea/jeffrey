@@ -24,7 +24,6 @@ import cn.hutool.core.util.StrUtil;
 @SpringBootApplication
 @RestController
 public class SpringBootDemoHelloworldApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootDemoHelloworldApplication.class, args);
 	}

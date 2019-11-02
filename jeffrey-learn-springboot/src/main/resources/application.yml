@@ -2,3 +2,10 @@ server:
   port: 8080
   servlet:
     context-path: /jeffrey-helloworld
+application:
+  name: dev环境 @artifactId@
+  version: dev环境 @version@
+spring:
+  profiles:
+    active:
+    - dev
