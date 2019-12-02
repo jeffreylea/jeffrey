@@ -59,16 +59,16 @@ public class TestController{
 	}
 	
 }
-    static int i=0;
+   
    public static void myTask() {
 		ScheduledExecutorService executorService=Executors.newScheduledThreadPool(2);
-		i=i+1;
+		
 		executorService.scheduleAtFixedRate(new Runnable() {
 			
 			@Override
 			public void run() {
 				System.out.println(new Date().toLocaleString());
-				
+				//System.out.println(i+1);
 			}
 		}, 0, 2, TimeUnit.SECONDS);
 	
