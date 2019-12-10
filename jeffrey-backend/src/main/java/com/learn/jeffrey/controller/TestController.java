@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.dom4j.DocumentException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.learn.jeffrey.config.Log;
 import com.learn.jeffrey.utils.DataFormatUtil;
 
 /**
@@ -26,7 +28,7 @@ import com.learn.jeffrey.utils.DataFormatUtil;
 public class TestController{
     
     @PostMapping("/h")
-    public String hello(HttpServletRequest request) throws IOException, DocumentException{
+    public String hello(@RequestParam("test")String test,HttpServletRequest request) throws IOException, DocumentException{
     	Map<String, String> map=DataFormatUtil.xmlToMap(request);
     	@SuppressWarnings("unchecked")
 		Map<String, Object> map2=DataFormatUtil.jsonStringToObject(DataFormatUtil.mapToJson(map).toString(), Map.class);
@@ -48,7 +50,9 @@ public class TestController{
 	   myTask();
 	
 }
-   public int name() {
+   @PostMapping("/ht")
+   @Log()
+   public int name(HttpServletRequest request) {
 	   
 	   int i=0;
 	   try {

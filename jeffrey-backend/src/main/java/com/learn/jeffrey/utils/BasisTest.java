@@ -4,10 +4,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
 
 public class BasisTest {
 	public static void main(String[] args) {
+		System.out.println(DataFormatUtil.getIpFlag("127.0.2.1"));
+		System.out.println("\"name\"");
+		Map map=new HashMap<String, String>();
+		map.put("name", "jeffrey");
+		map.put("age", "30");
+		System.out.println(JSON.toJSONString(map));
+		String a=DataFormatUtil.mapToJson(map).toString();
+		System.out.println(a);
+		String aaa="{\"name\":\"jeffrey\",\"age\":\"30\"}";
+		System.out.println("aaa="+aaa);
+		JSON aa=DataFormatUtil.jsonStringToObject(aaa, JSON.class);
+		System.out.println("aaa="+aa);
+		
 		System.out.println("test");
+		
 		ArrayList<Integer> arrayList= new ArrayList<>();
 		arrayList.add(-1);
 		arrayList.add(3);

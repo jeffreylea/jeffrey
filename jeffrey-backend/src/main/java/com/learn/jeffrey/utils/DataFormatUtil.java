@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -194,6 +195,20 @@ public class DataFormatUtil {
 					
 				}
 			}
+		}
+	}
+	
+	/**
+	 * 根据IP生成最后六位
+	 * @param ip
+	 * @return
+	 */
+	public static String getIpFlag(String ip) {
+		if (Pattern.matches("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)", ip)) {
+			String[] ips = ip.substring(ip.indexOf('.', ip.indexOf('.') + 1) + 1, ip.length()).split("\\.");
+			return String.format("%03d", Integer.parseInt(ips[0])) + String.format("%03d", Integer.parseInt(ips[1]));
+		} else {
+			return "000001";
 		}
 	}
 

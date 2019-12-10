@@ -1,5 +1,7 @@
 package com.learn.jeffrey.designpattern.strategy;
 
+import cn.hutool.crypto.SecureUtil;
+
 /**
  * <p>description</p>
  * @author lijianfei
@@ -7,7 +9,6 @@ package com.learn.jeffrey.designpattern.strategy;
  */
 public class Context {
 	private Strategy strategy;
-	
 	public Context(Strategy strategy) {
 		this.strategy=strategy;
 	}
