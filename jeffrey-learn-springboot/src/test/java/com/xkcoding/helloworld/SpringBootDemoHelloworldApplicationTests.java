@@ -11,6 +11,10 @@ public class SpringBootDemoHelloworldApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		int i=6;
+		System.out.println(i);
+		System.out.println(i++);
+		System.out.println(i);
 	}
 
 }

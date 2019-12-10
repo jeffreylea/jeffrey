@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.Set;
 
 public class BasisTest {
 	public static void main(String[] args) {
 		System.out.println("test");
 		ArrayList<Integer> arrayList= new ArrayList<>();
+		Set<String> a=new LinkedHashSet<>(Arrays.asList(args));
 		arrayList.add(-1);
 		arrayList.add(3);
 		arrayList.add(3);
