@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.learn.jeffrey.utils.DataFormatUtil;
+import com.learn.jeffrey.utils.DataFormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +42,7 @@ public class WechatController {
 	
 	@PostMapping(value = "/wx/portal")
 	public String post(HttpServletRequest request, HttpServletResponse response) throws IOException, DocumentException{
-		Map<String, String> map=DataFormatUtil.xmlToMap(request);
+		Map<String, String> map=DataFormatUtils.xmlToMap(request);
 		log.info("接收到微信消息："+map);
 		if(map.get("Event").equals("subscribe")) {
 			
@@ -52,7 +52,7 @@ public class WechatController {
 			reMap.put("CreateTime", "111");
 			reMap.put("MsgType", "text");
 			reMap.put("Content","你好");
-			String reXML=DataFormatUtil.mapToXml("xml",reMap);
+			String reXML=DataFormatUtils.mapToXml("xml",reMap);
 			return reXML;
 		}
 		return "success";

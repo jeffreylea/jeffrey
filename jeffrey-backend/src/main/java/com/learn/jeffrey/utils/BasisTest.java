@@ -19,11 +19,11 @@ public class BasisTest {
 		map.put("name", "jeffrey");
 		map.put("age", "30");
 		System.out.println(JSON.toJSONString(map));
-		String a=DataFormatUtil.mapToJson(map).toString();
+		String a=DataFormatUtils.mapToJson(map).toString();
 		System.out.println(a);
 		String aaa="{\"name\":\"jeffrey\",\"age\":\"30\"}";
 		System.out.println("aaa="+aaa);
-		JSON aa=DataFormatUtil.jsonStringToObject(aaa, JSON.class);
+		JSON aa=DataFormatUtils.jsonStringToObject(aaa, JSON.class);
 		System.out.println("aaa="+aa);
 		
 		System.out.println("test");

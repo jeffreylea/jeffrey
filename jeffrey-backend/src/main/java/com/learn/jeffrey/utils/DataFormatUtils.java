@@ -36,7 +36,7 @@ import com.alibaba.fastjson.TypeReference;
  * @author lijianfei
  * @date 2019-04-08
  */
-public class DataFormatUtil {
+public class DataFormatUtils {
 
 	/**
 	 * dependency: dom4j 
