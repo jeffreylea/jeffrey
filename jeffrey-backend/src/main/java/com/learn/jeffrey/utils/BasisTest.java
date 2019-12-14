@@ -4,15 +4,34 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
+
+import com.alibaba.fastjson.JSON;
 
 public class BasisTest {
 	public static void main(String[] args) {
+		System.out.println(IpUtils.ipV4ToLong("127.0.2.1"));
+		System.out.println(IpUtils.longToIpV4(2130706945));
+		System.out.println(IpUtils.getIpFlag("127.0.2.1"));
+		System.out.println("\"name\"");
+		Map map=new HashMap<String, String>();
+		map.put("name", "jeffrey");
+		map.put("age", "30");
+		System.out.println(JSON.toJSONString(map));
+		String a=DataFormatUtils.mapToJson(map).toString();
+		System.out.println(a);
+		String aaa="{\"name\":\"jeffrey\",\"age\":\"30\"}";
+		System.out.println("aaa="+aaa);
+		JSON aa=DataFormatUtils.jsonStringToObject(aaa, JSON.class);
+		System.out.println("aaa="+aa);
+		
 		System.out.println("test");
+		
 		ArrayList<Integer> arrayList= new ArrayList<>();
-		Set<String> a=new LinkedHashSet<>(Arrays.asList(args));
+		Set<String> a1=new LinkedHashSet<>(Arrays.asList(args));
 		arrayList.add(-1);
 		arrayList.add(3);
 		arrayList.add(3);
@@ -63,7 +82,5 @@ public class BasisTest {
 			System.out.println(i);
 		}
 	}
-	
-	
 
 }

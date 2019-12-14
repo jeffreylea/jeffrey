@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +26,7 @@ import org.dom4j.io.XMLWriter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 
 /**
  * <p>
@@ -34,7 +36,7 @@ import com.alibaba.fastjson.JSONObject;
  * @author lijianfei
  * @date 2019-04-08
  */
-public class DataFormatUtil {
+public class DataFormatUtils {
 
 	/**
 	 * dependency: dom4j 
@@ -196,6 +198,64 @@ public class DataFormatUtil {
 			}
 		}
 	}
-
+	
+	/**
+	 * json字符串转为map
+	 * @param json
+	 * @return
+	 */
+	public static Map<String,Object> parseToMap(String json) {
+		return JSON.parseObject(json, new TypeReference<Map<String,Object>>(){});
+	}
+	
+	/**
+	 * 解析URL中参数
+	 * @param URL
+	 * @return
+	 */
+    public static Map<String, String> urlSplit(String URL){
+        Map<String, String> mapRequest = new HashMap<String, String>();
+        String[] arrSplit=null;
+        String strUrlParam=truncateUrlPage(URL);
+        if(strUrlParam==null){
+            return mapRequest;
+        }
+        arrSplit=strUrlParam.split("[&]");
+        for(String strSplit:arrSplit){
+              String[] arrSplitEqual=null;         
+              arrSplitEqual= strSplit.split("[=]");
+              //解析出键值
+              if(arrSplitEqual.length>1){
+                  //正确解析
+                  mapRequest.put(arrSplitEqual[0], arrSplitEqual[1]);
+              }else{
+                  if(arrSplitEqual[0]!=""){
+                  //只有参数没有值，不加入
+                  mapRequest.put(arrSplitEqual[0], "");       
+                  }
+              }
+        }   
+        return mapRequest;   
+    }
+    /**
+     * 去掉url中的路径，留下请求参数部分
+     * @param strURL url地址
+     * @return url请求参数部分
+     * @author lzf
+     */
+    private static String truncateUrlPage(String strURL){
+        String strAllParam=null;
+        String[] arrSplit=null;
+        strURL=strURL.trim().toLowerCase();
+        arrSplit=strURL.split("[?]");
+        if(strURL.length()>1){
+          if(arrSplit.length>1){
+              for (int i=1;i<arrSplit.length;i++){
+                  strAllParam = arrSplit[i];
+              }
+          }
+        }
+        return strAllParam;   
+    }
 
 }
