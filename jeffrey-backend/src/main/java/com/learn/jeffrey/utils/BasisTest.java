@@ -11,7 +11,9 @@ import com.alibaba.fastjson.JSON;
 
 public class BasisTest {
 	public static void main(String[] args) {
-		System.out.println(DataFormatUtil.getIpFlag("127.0.2.1"));
+		System.out.println(IpUtils.ipV4ToLong("127.0.2.1"));
+		System.out.println(IpUtils.longToIpV4(2130706945));
+		System.out.println(IpUtils.getIpFlag("127.0.2.1"));
 		System.out.println("\"name\"");
 		Map map=new HashMap<String, String>();
 		map.put("name", "jeffrey");

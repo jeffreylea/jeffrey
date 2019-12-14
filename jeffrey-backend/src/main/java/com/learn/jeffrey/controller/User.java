@@ -3,6 +3,8 @@
  */
 package com.learn.jeffrey.controller;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,5 +21,13 @@ public class User {
 	private String MsgType;
 	private String Content;
 	private String MsgId;
+	private test1 test11;
+	private boolean flag;
 
+}
+@Setter
+@Getter
+class test1{
+	private String Content;
+	private String MsgId;
 }
