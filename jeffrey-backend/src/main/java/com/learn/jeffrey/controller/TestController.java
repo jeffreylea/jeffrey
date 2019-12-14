@@ -1,11 +1,13 @@
 package com.learn.jeffrey.controller;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.Writer;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.learn.jeffrey.config.Log;
+import com.learn.jeffrey.snowflake.SnowFlakeIdGenerator;
 import com.learn.jeffrey.utils.DataFormatUtils;
 
 /**
@@ -40,7 +43,17 @@ public class TestController{
     
     }
 
-   public static void main(String[] args) {
+   public static void main(String[] args) throws IOException {
+	   File t = new File("D:\\\\2.txt");
+	   Writer  out = new FileWriter(t);
+	   
+	   for(int i=0;i<(1<<10);i++) {
+		   out.write((SnowFlakeIdGenerator.generateId())+"\n");;; 
+	   
+	   }
+	   out.close();
+	   final Map<Long, Integer> map21 = new ConcurrentHashMap();
+	   map21.put(1L, 1);
 	   Map<String, String> map1=DataFormatUtils.urlSplit("https://openauth.alipay.com/oauth2/appToAppAuth.htm?app_id=2015101400446982&redirect_uri=http%3A%2F%2Fexample.com");
 	   String appId=map1.get("app_id");
 	   String redirext=map1.get("redirect_uri");
@@ -84,7 +97,7 @@ public class TestController{
 	
 }
    
-   public static void myTask() {
+   public static void myTask1() {
 		ScheduledExecutorService executorService=Executors.newScheduledThreadPool(2);
 		
 		executorService.scheduleAtFixedRate(new Runnable() {

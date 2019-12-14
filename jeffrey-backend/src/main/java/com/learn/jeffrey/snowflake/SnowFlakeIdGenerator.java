@@ -1,7 +1,13 @@
 package com.learn.jeffrey.snowflake;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tomcat.jni.Address;
 
@@ -16,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class SnowFlakeIdGenerator {
+	
+	private static SnowFlakeIdGenerator generator = new SnowFlakeIdGenerator();
 	/**
      * 起始的时间戳
      */
@@ -55,6 +63,23 @@ public class SnowFlakeIdGenerator {
      * 上一次时间戳
      */
     private long lastStmp = -1L;
+    
+    /**
+     * 单例模式实现
+     * @return
+     */
+    public static SnowFlakeIdGenerator getGenerator() {
+    	if(generator==null) {
+    		generator=new SnowFlakeIdGenerator();
+    	}
+    	return generator;
+    }
+    
+    private SnowFlakeIdGenerator() {
+    	this.datacenterId = 1L;
+        this.machineId = 1L;
+        this.lastStmp = System.currentTimeMillis();
+    }
  
     /**
      * 构造器
@@ -147,37 +172,48 @@ public class SnowFlakeIdGenerator {
      * @throws Exception 
      */
     public static String generateId() throws GenerateIdException{
-    	 long datacenterId = 1L;
-         SnowFlakeIdGenerator snowFlake = new SnowFlakeIdGenerator(datacenterId, 6L);
          try {
         	 InetAddress address = InetAddress.getLocalHost();
         	 String flag = IpUtils.getIpFlag(address.getHostAddress());
-        	 return String.valueOf(snowFlake.nextId())+flag;
+        	 return String.valueOf(generator.nextId())+flag;
 		} catch (UnknownHostException e) {
 			log.error("Generate unique id exception. ", e);
             throw new GenerateIdException(e);
 		}
 	}
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+    	
     	/*Map<String, String> map = new HashMap<String, String>();
     	Integer integer=1;
     	Convert.convert(HashMap.class, integer);*/
- 
+    	 File t = new File("D:\\\\2.txt");
+  	   Writer  out = new FileWriter(t);
         /**
          *  datacenterId 数据中心id
          *  machineId    机器标识id
          */
         long datacenterId = 1L;
-        long machineId = Long.parseLong(IpUtils.getIpFlag(""));
-        SnowFlakeIdGenerator snowFlake = new SnowFlakeIdGenerator(datacenterId, machineId);
+        long machineId = 1L;
         System.out.println("------------------"+machineId);
-        for (int i = 0; i < (1 << 4); i++) {
-            System.out.println(snowFlake.nextId());
+        System.out.println(generator.getClass());
+        List<SnowFlakeIdGenerator> li=new ArrayList<>();
+        for (int i = 0; i < (1 << 2); i++) {
+        	SnowFlakeIdGenerator a=new SnowFlakeIdGenerator();
+        
+        	SnowFlakeIdGenerator a1=new SnowFlakeIdGenerator();
+        	SnowFlakeIdGenerator a2=new SnowFlakeIdGenerator();
+        	li.add(a);
+        	li.add(a1);
+        	li.add(a2);
+        	System.out.println(li.size());
+        	String b=a.generateId();
+           out.write(a.generateId()+"\n");
         }
-       
+        out.close();
         long machineId1 = Long.parseLong(IpUtils.getIpFlag("127.0.0.2"));
         SnowFlakeIdGenerator snowFlake1 = new SnowFlakeIdGenerator(datacenterId, machineId1);
         System.out.println("------------------"+machineId1);
+        
         for (int i = 0; i < (1 << 4); i++) {
             System.out.println(snowFlake1.nextId());
         }
