@@ -1,0 +1,18 @@
+test:
+  config:
+    name: "jeffrey-prod"
+spring:
+  security:
+    user:
+      name: jeffrey
+      password: 123456
+management:
+  server:
+    port: 9091
+  endpoints:
+    web: 
+      exposure: 
+        include: '*'  # 包含端点，可以访问；多端点之间用逗号分隔
+  endpoint: 
+    health:  
+      show-details: always

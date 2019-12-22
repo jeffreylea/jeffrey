@@ -29,10 +29,10 @@ public class SpringBootDemoHelloworldApplication {
 	}
 
 	/**
-	 * Hello，World
+	 * HELLO，WORLD
 	 *
-	 * @param who 参数，非必须
-	 * @return Hello, ${who}
+	 * @PARAM WHO 参数，非必须
+	 * @RETURN HELLO, ${WHO}
 	 */
 	@GetMapping("/hello")
 	public String sayHello(@RequestParam(required = false, name = "who") String who) {
