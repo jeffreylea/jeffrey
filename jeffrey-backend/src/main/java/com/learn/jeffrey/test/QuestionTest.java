@@ -33,28 +33,22 @@ public class QuestionTest {
 
 		// Map<String, String> validateResult = new HashMap<>();
 		JSONArray array = JSONArray.parseArray(jsonStr);
-		
+
 		Set<String> requiredProperties = new HashSet<>();
-		Set<String> required = validateJSONArrayFromMapValues(array,values,requiredProperties);
+		Set<String> required = validateJSONArrayFromMapValues(array, values, requiredProperties);
 		required.remove(null);
 		System.out.println(required);
 	}
-	// System.out.println(validateResult+"为必输参数");
-	/*
-	 * Map<String, Object> values = JSON.parseObject(jsonStr, Map.class);
-	 * for(Map.Entry<String, Object> value:values.entrySet()) { value.getKey()
-	 * 
-	 * } System.out.println(values);
-	 */
-	
-	public static Set<String> validateJSONArrayFromMapValues(JSONArray array,Map<String, Object> values,Set<String> requiredProperties) {
+
+	public static Set<String> validateJSONArrayFromMapValues(JSONArray array, Map<String, Object> values,
+			Set<String> requiredProperties) {
 		for (Object item : array) {
 			JSONObject i = (JSONObject) item;
 			String requiredPropertie = validateJSONObjectFromMapValues(i, values);
 			requiredProperties.add(requiredPropertie);
-			if(i.containsKey("subquestions")) {
+			if (i.containsKey("subquestions")) {
 				JSONArray arr = JSON.parseArray(JSONObject.toJSONString(i.get("subquestions")));
-				validateJSONArrayFromMapValues(arr,values,requiredProperties);
+				validateJSONArrayFromMapValues(arr, values, requiredProperties);
 			}
 		}
 		return requiredProperties;

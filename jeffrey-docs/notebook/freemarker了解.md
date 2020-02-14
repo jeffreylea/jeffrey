@@ -1,6 +1,6 @@
 # 模板+数据模型=输出 
 参考：
-http://freemarker.foofun.cn/dgui_template_exp.html#exp_cheatsheet
+[Freemarker在线文档](http://freemarker.foofun.cn/dgui_template_exp.html#exp_cheatsheet)
 ## 数据模型：
 + 数据模型是树状结构；
 + 标量scalar：存储单值的变量称为标量，单独的数，没有方向，只有数值大小。
