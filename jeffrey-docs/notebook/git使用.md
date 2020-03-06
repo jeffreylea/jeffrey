@@ -44,3 +44,8 @@ git config user.email "email"
 
 对git不太熟悉才这样操作，还需要熟悉下git命令。
 
+另一种解决的方式是卸载git重新安装，再次git clone或 git pull操作时会弹出安全中心输入用户名密码的窗口，填入正确的用户名密码就可以正常的操作了。
+使用gitbash无权限但eclipse中git操作正常的原因可能是，两者使用的不是同一个git客户端，使用的密码位置也不一样，如果再次遇到这种情况，先不用重新安装，可以试着去控制面板\用户帐户\凭据管理器中修改下对应的凭据。
+
+本地代码与远程代码关联，添加远程地址：
+git remote add origin xxxurlXX
