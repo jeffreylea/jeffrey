@@ -1,6 +1,7 @@
 package com.learn.jeffrey.utils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -20,10 +21,13 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author lijianfei
  * @2018年8月14日 email:1020724110@qq.com
  */
+@Slf4j
 public class EncryptUtils {
 	/*
 	 * 使用到的依赖包 <dependency> <groupId>commons-codec</groupId>
@@ -35,6 +39,9 @@ public class EncryptUtils {
 
 	// 加密时采用的编码方式;
 	private final static String encoding = "UTF-8";
+	
+	private static final String ENCRYPTION_TYPE = "MD5";//加密类型
+    private static final char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};// 用来将字节转换成 16 进制表示的字符
 
 	/**
 	 * MD5算法加密
@@ -211,6 +218,76 @@ public class EncryptUtils {
 		}
 		return result;
 	}
+	
+	/**前后端统一加密方式
+    *
+    * @param inStr 加密字符串
+    * @return      加密后字符串
+    */
+	public static String md5Encode(String inStr) {
+		MessageDigest md5 = null;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (Exception e) {
+			log.error("加密异常，", e);
+			return "";
+		}
+		byte[] byteArray = null;
+		try {
+			byteArray = inStr.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+		    log.error("加密异常，", e);
+		}
+		byte[] md5Bytes = md5.digest(byteArray);
+		StringBuilder hexValue = new StringBuilder();
+		for (int i = 0; i < md5Bytes.length; i++) {
+			int val = md5Bytes[i] & 0xff;
+			if (val < 16) {
+				hexValue.append("0");
+			}
+			hexValue.append(Integer.toHexString(val));
+		}
+		return hexValue.toString();
+	}
+
+   /**
+    * 前后端统一加密方式获取16位
+    * 用于生成固定位数唯一码
+    *
+    * @param source 源字符串
+    * @return 加密后字符串
+    */
+	public static String md5Encode16Bit(String source) {
+	    return md5Encode(source).substring(8, 24).toUpperCase();
+   }
+	
+	 /**
+     * 使用算法，将加密后的数据转换成16进制
+     *
+     * @param source 源字符串
+     * @return 加密后字符串
+     */
+    public static String convertByAlgorithm(String source) {
+        StringBuilder sb = new StringBuilder();
+        MessageDigest md5;
+        try {
+            md5 = MessageDigest.getInstance(ENCRYPTION_TYPE);
+            md5.update(source.getBytes());
+            byte[] encryptStr = md5.digest();
+            for (int i = 0; i < encryptStr.length; i++) {
+                int iRet = encryptStr[i];
+                if (iRet < 0) {
+                    iRet += 256;
+                }
+                int iD1 = iRet / 16;
+                int iD2 = iRet % 16;
+                sb.append(hexDigits[iD1] + "" + hexDigits[iD2]);
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
+    }
 
 	/**
 	 * 测试加密算法
@@ -238,5 +315,8 @@ public class EncryptUtils {
 		System.out.println("结束时间：" + strDate2 + "   毫秒数：" + start2);
 		long time = start2 - start;
 		System.out.println("间隔时间：" + time);
+		
+		System.out.println(md5Encode16Bit("ceshi"));;
+		System.out.println(convertByAlgorithm("ceshi"));
 	}
 }
