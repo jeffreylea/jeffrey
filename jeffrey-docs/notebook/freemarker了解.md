@@ -3,7 +3,15 @@
 freemarker是一种模板引擎（为了界面和业务数据分离），即一种基于模板和要改变的数据，并用来生成输出文本（HTML网页、电子邮件、配置文件、源代码等）的通用工具。它不是面向最终用户的，而是一个java类库，是一款程序员可以嵌入他们所开发产品的组件。  
 ![freemarker原理](/jeffrey-docs/image/freemarker-01.png)
 
-# springboot中freemarker的简单使用
+# 模板的总体结构 
+
+模板是由如下部分混合而成的：
++ 文本:文本会照着原样来输出 
++ 插值：这部分的输出会被计算的值来替换。插值由 ${ and } 所分隔
++ FTL标签：FTL标签和HTML标签很相似，但是它们却是给FreeMarker的指示， 而且不会打印在输出内容中。
++ 注释：注释和HTML的注释也很相似，但它们是由 <#-- 和 -->来分隔的。注释会被FreeMarker直接忽略， 更不会在输出内容中显示。
+
+# springboot中freemarker的简单使用(模板开发)
 创建一个springboot项目，依赖Spring Web、apache freemarker。
 创建完之后看pom文件是否有freemarker的依赖，没有要添加上。pom文件依赖如下：
 
@@ -50,6 +58,11 @@ ${welcome}
 在编写ftl页面时，发现eclipse中并没有像编写jsp页面时有颜色，这里可以设置下使用jsp编辑方式打开*.ftl文件，设置方式：Window → preferences → Content Types → Text → JSP，点击下方的 File associaions 右侧的 Add... 按钮，输入 *.ftl 添加。
 这里了解下@Controller和@RestController注解的区别，@RestController注解相当于@ResponseBody ＋ @Controller合在一起的作用，如果只是使用@RestController注解，则controller中的方法无法返回ftl页面。如果需要返回到指定页面，则需要用 @Controller配合视图解析器FreeMarkerViewResolver才行。如果需要返回JSON，XML或自定义mediaType内容到页面，则需要在对应的方法上加上@ResponseBody注解。
 启动项目之后，发送请求：http://localhost:8080/index，页面会显示hello world，这就是freemarker的简单使用。
+
+
+
+
+
 
 # 模板+数据模型=输出 
 参考：
