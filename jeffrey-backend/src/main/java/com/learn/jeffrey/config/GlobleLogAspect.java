@@ -21,7 +21,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * <p>公共日志拦截</p>
+ * <p>&#x516c;&#x5171;&#x65e5;&#x5fd7;&#x62e6;&#x622a;</p>
  * @author lijianfei
  * @date 2019-12-10
  */

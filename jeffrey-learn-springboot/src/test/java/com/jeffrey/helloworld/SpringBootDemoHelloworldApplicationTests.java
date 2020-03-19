@@ -1,4 +1,4 @@
-package com.xkcoding.helloworld;
+package com.jeffrey.helloworld;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
