@@ -3,8 +3,8 @@
 <head>
     <title>SpringBoot模版渲染</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-    <!-- <script src="jeffrey-helloworld/js/common.js"></script> -->
-<script>
+    <script th:src="@{/js/common.js}"></script>
+<!-- <script>
 function getParam(paramName) {
     paramValue = "";
     isFound = false;
@@ -26,7 +26,7 @@ function getParam(paramName) {
     }
     return paramValue;
 } 
-</script>
+</script> -->
 </head>
 <body>
     <p th:text="'用户名称：' + ${name}"/>
