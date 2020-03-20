@@ -111,3 +111,23 @@ userIdList.toArray(new String[0])
       #{i.modifierId,jdbcType=VARCHAR}, #{i.modifyTime,jdbcType=TIMESTAMP})
   </foreach>
 ```
+
+Caused by: java.lang.ClassNotFoundException: org.springframework.boot.context.properties.ConfigurationPropertiesBean
+
+springboot的版本和springcloud的版本不匹配导致。我的配置如下：删除org.springframework.cloud的配置项目就能正常启动了。
+
+```
+<parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.5.RELEASE</version>
+    </parent>
+    
+    
+            <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <version>2.2.0.RELEASE</version>
+        </dependency>
+```
+

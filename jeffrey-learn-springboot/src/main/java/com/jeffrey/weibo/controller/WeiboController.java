@@ -56,9 +56,19 @@ public class WeiboController {
 	 * @return
 	 */
 	@GetMapping("/oauth2/account")
-	public ResponseEntity<User>  getAccountInfo(@RequestParam("accessToken") String accessToken) {
-		return new ResponseEntity<User>(weiboService.getAccountInfo(accessToken), HttpStatus.OK);
+	public User getAccountInfo(@RequestParam("accessToken") String accessToken) {
+		return weiboService.getAccountInfo(accessToken);
 	}
 	
-	
+	@GetMapping("/oauth2/test")
+	public ResponseEntity<weibo4j.User> getTest() {
+		weibo4j.User user = new weibo4j.User();
+		user.setName("kkk");
+		/*Map<String,String> a = new HashMap<>();
+		a.put("name", "jeffrey");*/
+		if(user != null) {
+			return ResponseEntity.ok(user);//new ResponseEntity<>(user, HttpStatus.OK);
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
 }

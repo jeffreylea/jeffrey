@@ -24,7 +24,7 @@ import cn.hutool.core.util.StrUtil;
  */
 @SpringBootApplication
 @RestController
-@ComponentScan(basePackages = {"com.jeffrey.*"})
+@ComponentScan(basePackages = {"com.jeffrey.*", "weibo4j.*"})
 public class SpringBootDemoHelloworldApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootDemoHelloworldApplication.class, args);

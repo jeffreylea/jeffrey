@@ -15,7 +15,10 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.dom4j.DocumentException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +45,18 @@ public class TestController{
          return DataFormatUtils.mapToXml("xml",map2);
     
     }
+    
+    @GetMapping("/test")
+	public ResponseEntity<User> getUser() {
+		User user = new User();
+		user.setContent("内容");;
+		/*Map<String,String> a = new HashMap<>();
+		a.put("name", "jeffrey");*/
+		if(user != null) {
+			return ResponseEntity.ok(user);//new ResponseEntity<>(user, HttpStatus.OK);
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
 
    public static void main(String[] args) throws IOException {
 	   File t = new File("D:\\\\2.txt");
