@@ -24,7 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
+import com.learn.jeffrey.base.model.dto.BaseController;
+import com.learn.jeffrey.base.model.dto.BaseEntityDTO;
 import com.learn.jeffrey.config.Log;
+import com.learn.jeffrey.consts.ReturnCodeConsts;
 import com.learn.jeffrey.snowflake.SnowFlakeIdGenerator;
 import com.learn.jeffrey.utils.DataFormatUtils;
 
@@ -35,7 +38,7 @@ import com.learn.jeffrey.utils.DataFormatUtils;
  */
 @Controller
 @RestController
-public class TestController{
+public class TestController extends BaseController{
     
     @PostMapping("/h")
     public String hello(@RequestParam("test")String test,HttpServletRequest request) throws IOException, DocumentException{
@@ -57,6 +60,15 @@ public class TestController{
 		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
+    
+    @GetMapping("/test1")
+   	public BaseEntityDTO<User> getUser1() {
+   		User user = new User();
+   		user.setContent("内容");;
+   		/*Map<String,String> a = new HashMap<>();
+   		a.put("name", "jeffrey");*/
+   		return buildEntityDTO(user);
+   	}
 
    public static void main(String[] args) throws IOException {
 	   File t = new File("D:\\\\2.txt");
