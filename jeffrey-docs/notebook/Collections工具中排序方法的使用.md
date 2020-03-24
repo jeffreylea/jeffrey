@@ -65,9 +65,9 @@ log.info("Collections.swap(list):{}", list);
 ```
 
 //  在练习Collections.rotate(List<?> list, int distance)这个方法时，首先学习rotate这个单词，rotate是旋转的意思，该方法就是将集合进行旋转操作。
-        //  当 distance>0时，将list后的distance个元素整体挪到前面,例如当distance参数为2时，结果如下
-        // [test3, test4, test5, test2, test1]->[test1, test3, test4, test5, test2]
-        // 当distance<0 时，将list的distance个元素整体移动到后面，当distance>list的长度时，可以看做distance = distance-list
+//  当 distance>0时，将list后的distance个元素整体挪到前面,例如当distance参数为2时，结果如下
+// [test3, test4, test5, test2, test1]->[test1, test3, test4, test5, test2]
+// 当distance<0 时，将list的distance个元素整体移动到后面，当distance>list的长度时，可以看做distance = distance-list
         
 ```
 Collections.rotate(list, 6);
@@ -77,7 +77,7 @@ log.info("Collections.rotate(list):{}", list);
 总结:
 
 ```
-log.info("原始列表:{}", list);
+ log.info("原始列表:{}", list);
  log.info("Collections.reverse(list):{}", list);
  log.info("Collections.shuffle(list):{}", list);
  log.info("Collections.sort(list):{}", list);
