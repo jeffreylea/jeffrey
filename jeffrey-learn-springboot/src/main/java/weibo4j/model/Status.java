@@ -75,9 +75,10 @@ public class Status extends WeiboResponse {
 			}
 			mlevel = json.getInt("mlevel");
 			geo= json.getString("geo");
-			if(geo!=null &&!"".equals(geo) &&!"null".equals(geo)){
+			// TODO getGeoInfo方法有bug
+			/*if(geo!=null &&!"".equals(geo) &&!"null".equals(geo)){
 				getGeoInfo(geo);
-			}
+			}*/
 			if(!json.isNull("visible")){
 				visible= new Visible(json.getJSONObject("visible"));
 			}

@@ -1,14 +1,17 @@
 package com.jeffrey.weibo.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.jeffrey.weibo.service.IWeiboService;
 
 import lombok.extern.slf4j.Slf4j;
 import weibo4j.Account;
 import weibo4j.Oauth;
+import weibo4j.Timeline;
 import weibo4j.Users;
 import weibo4j.http.AccessToken;
+import weibo4j.model.StatusWapper;
 import weibo4j.model.User;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONException;
@@ -52,16 +55,32 @@ public class WeiboService implements IWeiboService {
 	}
 
 	@Override
-	public User getAccountInfo(String access_token) {
+	public User getAccountInfo(String access_token, String uid) {
 		Users um = new Users(access_token);
 		User user = null;
 		try {
-			user = um.showUserById(getUid(access_token));
+			if(StringUtils.isEmpty(uid)) {
+				uid = getUid(access_token);
+			}
+			user = um.showUserById(uid);
 			log.info(user.toString());
 		} catch (WeiboException e) {
 			e.printStackTrace();
 		}
 		return user;
+	}
+
+	@Override
+	public StatusWapper getUserTimeline(String accessToken) {
+		Timeline tm = new Timeline(accessToken);
+		StatusWapper status = null;
+		try {
+			status = tm.getUserTimeline();
+			log.info(status.toString());
+		} catch (WeiboException e) {
+			e.printStackTrace();
+		}
+		return status;
 	}
 
 }
