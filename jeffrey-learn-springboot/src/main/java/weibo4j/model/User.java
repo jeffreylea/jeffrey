@@ -184,9 +184,9 @@ public class User extends WeiboResponse {
 	public void setStatusId(String statusId) {
 		this.statusId = statusId;
 	}
-	public String getUrl() {
+	/*public String getUrl() {
 		return url;
-	}
+	}*/
 	public String getProfileImageUrl() {
 		return profileImageUrl;
 	}
@@ -399,36 +399,8 @@ public class User extends WeiboResponse {
 		return verified;
 	}
 
-	public int getverifiedType() {
-		return verifiedType;
-	}
-
-	public boolean isallowAllActMsg() {
-		return allowAllActMsg;
-	}
-
-	public boolean isallowAllComment() {
-		return allowAllComment;
-	}
-
-	public boolean isfollowMe() {
-		return followMe;
-	}
-
-	public String getavatarLarge() {
-		return avatarLarge;
-	}
-
-	public int getonlineStatus() {
-		return onlineStatus;
-	}
-
 	public Status getStatus() {
 		return status;
-	}
-
-	public int getbiFollowersCount() {
-		return biFollowersCount;
 	}
 
 	public String getRemark() {
@@ -438,7 +410,7 @@ public class User extends WeiboResponse {
 	public String getLang() {
 		return lang;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

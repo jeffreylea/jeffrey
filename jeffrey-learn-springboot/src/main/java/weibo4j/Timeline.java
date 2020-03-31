@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import weibo4j.http.ImageItem;
+import weibo4j.http.Response;
 import weibo4j.model.Emotion;
 import weibo4j.model.FriendsTimelineIds;
 import weibo4j.model.MentionsIds;
@@ -264,10 +265,11 @@ public class Timeline extends Weibo {
 	 * @since JDK 1.5
 	 */
 	public StatusWapper getUserTimeline() throws WeiboException {
+		Response res = client.get(
+				WeiboConfig.getValue("baseURL")
+						+ "statuses/user_timeline.json", access_token);
 		return Status
-				.constructWapperStatus(client.get(
-						WeiboConfig.getValue("baseURL")
-								+ "statuses/user_timeline.json", access_token));
+				.constructWapperStatus(res);
 	}
 
 	public StatusWapper getUserTimelineByUid(String uid) throws WeiboException {

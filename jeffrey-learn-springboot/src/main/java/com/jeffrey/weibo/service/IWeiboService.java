@@ -1,6 +1,7 @@
 package com.jeffrey.weibo.service;
 
 import weibo4j.http.AccessToken;
+import weibo4j.model.StatusWapper;
 import weibo4j.model.User;
 import weibo4j.model.WeiboException;
 
@@ -30,10 +31,17 @@ public interface IWeiboService {
 	String getUid(String accessToken);
 	
 	/**
-	 * 根据accessToken获取登录用户信息
+	 * 根据uid获取用户信息，如果UID为空，则查询accessToken登录用户信息
 	 * 
 	 * @param access_token
 	 * @return
 	 */
-	User getAccountInfo(String accessToken);
+	User getAccountInfo(String accessToken, String uid);
+	
+	/**
+	 * 获取某个用户最新发表的微博列表
+	 * @return
+	 */
+	StatusWapper getUserTimeline(String accessToken);
+	
 }
