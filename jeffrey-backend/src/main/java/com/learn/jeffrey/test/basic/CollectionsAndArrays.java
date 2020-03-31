@@ -95,11 +95,33 @@ public class CollectionsAndArrays {
 				return o2.compareTo(o1);
 			}
 		});
-		log.info("Collections.max(list, new Comparator<String>():{}", d);
+		log.info("Collections.max(list, new Comparator<String>()):{}", d);
 		
 		// void fill(List list, Object obj)用指定的元素代替指定list中的所有元素
-		Collections.fill(list, "0");
-		log.info("fill(List list, Object obj):{}",list);
+		/*Collections.fill(list, "0");
+		log.info("fill(List list, Object obj):{}",list);*/
+		
+		// Collections.frequency(list, "test1") 统计元素test1出现的次数
+		int e = Collections.frequency(list, "test1");
+		log.info("Collections.frequency(list, \"test1\"):{}", e);
+		
+		// Collections.indexOfSubList(list, subList) 统计sublist在list中第一次出现的索引，找不到则返回-1
+		// int lastIndexOfSubList(List source, list target)是统计 target在source中最后一次出现的索引，找不到则返回-1
+		List<String> subList = list.subList(2, 3);
+		int f = Collections.indexOfSubList(list, subList);
+		log.info("Collections.indexOfSubList(list, subList):{}", f);
+		
+		// Collections.replaceAll(list, "test2", "Test2")新元素Test2替代旧元素test2,
+		// 这里要和Collections.fill((List list, Object obj)区别，是将所有元素替代
+		Collections.replaceAll(list, "test2", "Test2");
+		log.info("Collections.replaceAll(list, \"test2\", \"Test2\"):{}", list);
+
+		boolean b;
+
+	}
+
+	public static Boolean valueOf(boolean b){
+		return b?Boolean.TRUE:Boolean.FALSE;
 	}
 
 }
