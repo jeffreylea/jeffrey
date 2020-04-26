@@ -28,7 +28,7 @@ public class JsonUtil {
 	/**
 	 * 读取json文件
 	 * 
-	 * @param fileName json文件名
+	 * @param jsonFile json文件名
 	 * @return 返回json字符串
 	 */
 	public static String readJsonFile(File jsonFile) {
