@@ -1,5 +1,8 @@
 package com.learn.jeffrey.snowflake;
 
+import com.learn.jeffrey.utils.IpUtils;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,10 +11,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.learn.jeffrey.utils.IpUtils;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>雪花算法实现主键ID生成</p>

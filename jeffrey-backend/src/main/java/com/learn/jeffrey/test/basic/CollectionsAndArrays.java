@@ -1,16 +1,9 @@
 package com.learn.jeffrey.test.basic;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lijianfei
@@ -29,12 +22,13 @@ public class CollectionsAndArrays {
 //		SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-w");
 //		System.out.print(sdf.format(new Date()));;
 		// Collections工具排序方法练习
-//		List<String> list = new ArrayList<>();
-//		list.add("test1");
-//		list.add("test2");
-//		list.add("test3");
-//		list.add("test4");
-//		list.add("test5");
+		List<String> list = new ArrayList<>();
+		list.add("test1");
+		list.add("test2");
+		list.add("test3");
+		list.add("test4");
+		list.add("test5");
+		list.stream().count();
 //		log.info("原始列表:{}", list);
 		// void reverse(List<?> list): 反转
 //		Collections.reverse(list);

@@ -136,3 +136,28 @@ http://www.baiyu.tech/code/list/21
 openJDK源码下载：
 地址：http://hg.openjdk.java.net，找到对应的jdk版本，点击进去就可以看到里面的详细文件，在左侧有
 
+sl4j使用log.info 打印日志时只有父类属性或子类属性：
+在我打印日志时，发现只显示了父类的属性，子类的属性没有打印，使用get方法也能获取子类属相参数。于是检查了两者的不同之处，发现在子类中使用的是@Data注解，但在子类中使用的是@getter,@setter注解，网上查了一番，是@Data这个注解还包含了@toString注解。在子类中也同样使用@data注解时，只打印了子类中的属性，在子类中加上@ToString(callSuper = true)，就可以解决了。
+
+Word转MD工具
+http://www.writage.com/
+
+nodejs安装：
+下载网址
+https://nodejs.org/zh-cn/
+断网安装（我开始没有断网时安装失败）。
+查看node版本：node -v -》v12.16.3
+查看npm版本：npm -v -》6.4.1
+可以看到两个版本不对应
+npm root -g  查看全局的包的安装路径
+在查看全局包安装路径时提示：
+npm does not support Node.js v12.16.3
+解决：
+百度搜索"以往的版本 | Node.js"，可以查出来node与npm版本的对关系
+找到v12.16.3对应的版本npm版本6.14.4
+1、删除全局模块里面的npm
+npm uninstall -g npm
+2、  安装npm
+npm install -g npm
+再次npm -v 查看npm版本：6.14.5，已更改为最新的版本
+现在可以使用命令(npm root -g )查看全局的包的安装路径。

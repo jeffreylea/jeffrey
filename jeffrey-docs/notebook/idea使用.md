@@ -42,6 +42,15 @@ File->settings->Editor->color scheme,选择对应的模式即可设置
 # idea打开多个文件显示多行设置
 File->settings->Editor->general->edit tabs,取消选中show tabs in one row
 
+# idea中无法打印汉字解决方式
+使用的输入法是搜狗输入法，突然无法输入中文，切换到中文模式，打出的提示也是英文的，使用快捷键Ctrl+Shift+E就可以切换到正常状态，应该是不小心按到这个快捷键了。这个快捷键是搜狗输入法的快捷键，是英文不全快捷键。
+
+# idea 不区分大小写设置
+File->settings->Editor->general->code completion,取消勾选match case，这个默认是选上的。
+
+# idea 自动导入类设置
+Editor>General>Auto Import，勾选上add unambiguous imports on the fly选项，应用后会自动导入对应的类，Optimize imports on the fly选项勾选后，可以帮助我们去掉不需要的类
+
 
 
 
