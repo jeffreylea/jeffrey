@@ -1,5 +1,6 @@
 package com.learn.jeffrey.test.basic;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,10 @@ import java.util.List;
  * @Date 2020/5/2 9:42
  **/
 public class StreamTest {
-    public static void main(String args[]){
+    public StreamTest(){
+        System.out.println("StreamTest");
+    }
+    public static void main(String args[]) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException, InstantiationException {
         List<String> list = new ArrayList<>();
         list.add("test1");
         list.add("test2");
