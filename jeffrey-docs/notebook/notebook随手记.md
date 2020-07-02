@@ -161,3 +161,167 @@ npm uninstall -g npm
 npm install -g npm
 再次npm -v 查看npm版本：6.14.5，已更改为最新的版本
 现在可以使用命令(npm root -g )查看全局的包的安装路径。
+
+# StopWatch计时器的使用
+start和stop之间不能嵌套，会报错。
+Can't start StopWatch: it's already running
+
+# java.util.concurrent包
+这是java的并发工具包，java5开始添加的，它使得并发变成更加容易。
+ + Executor接口
+  
+```
+public interface Executor {
+    void execute(Runnable command);
+}
+```
+
+接口里只有一个方法，它的子类和已经实现的类有：
+All Known Subinterfaces:
+`ExecutorService ， ScheduledExecutorService`
+所有已知实现类：
+`AbstractExecutorService ， ForkJoinPool ， ScheduledThreadPoolExecutor ， ThreadPoolExecutor`
+
++ ExecutorService接口
+
+ExecutorService扩展了Executor接口并添加了一些生命周期管理的方法，一个Executor有运行、关闭终止三种状态。它是真正的线程池管理者。
+
+>Executor创建时处于运行状态。当调用ExecutorService.shutdown()后，处于关闭状态，isShutdown()方法返回true。这时，不应该再向Executor中添加任务，所有已添加的任务执行完毕后，Executor处于终止状态，isTerminated()返回true。如果Executor处于关闭状态，往Executor提交任务会抛出unchecked exception RejectedExecutionException
+
+
+```
+public interface ExecutorService extends Executor {
+
+    void shutdown();
+
+    List<Runnable> shutdownNow();
+
+    boolean isShutdown();
+
+    boolean isTerminated();
+
+    boolean awaitTermination(long timeout, TimeUnit unit)
+        throws InterruptedException;
+
+    <T> Future<T> submit(Callable<T> task);
+
+    <T> Future<T> submit(Runnable task, T result);
+
+    Future<?> submit(Runnable task);
+
+    <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+        throws InterruptedException;
+
+    <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
+                                  long timeout, TimeUnit unit)
+        throws InterruptedException;
+
+    <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+        throws InterruptedException, ExecutionException;
+
+    <T> T invokeAny(Collection<? extends Callable<T>> tasks,
+                    long timeout, TimeUnit unit)
+        throws InterruptedException, ExecutionException, TimeoutException;
+}
+
+```
+
+它的父类子类和已经实现的类有：
+`All Superinterfaces:
+Executor
+All Known Subinterfaces:
+ScheduledExecutorService
+所有已知实现类：
+AbstractExecutorService ， ForkJoinPool ， ScheduledThreadPoolExecutor ， ThreadPoolExecutor`
+
++ ScheduledExecutorService接口
+支持多线程的线程调度
+接口中的方法：
+```
+public interface ScheduledExecutorService extends ExecutorService {
+
+    /**
+     * 带延迟时间的调度，只执行一次
+     * 调度之后可通过Future.get()阻塞直至任务执行完毕
+     */
+    public ScheduledFuture<?> schedule(Runnable command,
+                                       long delay, TimeUnit unit);
+
+/**
+ * 带延迟时间的调度，只执行一次
+ * 调度之后可通过Future.get()阻塞直至任务执行完毕，并且可以获取执行结果
+ */
+public <V> ScheduledFuture<V> schedule(Callable<V> callable,
+                                           long delay, TimeUnit unit);
+
+/**
+ * 带延迟时间的调度，循环执行，固定频率
+ */
+  public ScheduledFuture<?> scheduleAtFixedRate(Runnable command,
+                                                  long initialDelay,
+                                                  long period,
+                                                  TimeUnit unit);
+
+
+/**
+ * 带延迟时间的调度，循环执行，固定延迟
+ */
+    public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,
+                                                     long initialDelay,
+                                                     long delay,
+                                                     TimeUnit unit);
+
+}
+```
+子类和实现类：
+```
+All Superinterfaces:
+Executor ， ExecutorService
+所有已知实现类：
+ScheduledThreadPoolExecutor
+```
+
++ AbstractExecutorService抽象类
+
+类之间的关系：
+```
+All Implemented Interfaces:
+Executor ， ExecutorService
+已知直接子类：
+ForkJoinPool ， ThreadPoolExecutor
+```
+类的方法：
+```
+public abstract class AbstractExecutorService implements ExecutorService {
+//返回给定可调用任务的 RunnableFuture 。
+protected <T> RunnableFuture<T>	newTaskFor(Callable<T> callable){};
+}
+```
+
+# VM-centos网络配置：
+从虚拟机的编辑->虚拟网络编辑器中查看网关地址：192.168.95.2
+编辑文件：vi /etc/sysconfig/network-scripts/ifcfg-eth0
+设置网络:
+     DEVICE=eth0
+     TYPE=Ethernet
+     ONBOOT=yes
+     NM_CONTROLLED=yes
+     BOOTPROTO=static
+     IPADDR=192.168.95.10
+     NATMASK=255.255.255.0
+     GATEWAY=192.168.95.2
+service network restart 重启网络。此时可以检测网络
+ping 192.168.95.2;
+ping 192.168.95.10;
+设置dns:
+vi /etc/resolv.conf
+nameserver 114.114.114.114
+检测是否成功：ping www.baidu.com
+
+1、克隆之后的操作系统需要重新分配物理地址
+a、删除/etc/sysconfig/network-scripts/ifcfg-eth0 文件中的物理地址
+删除两行：UUID 和物理地址
+b、删除文件/etc/udev/rules.d/70-persistent-net.rules
+rm -rf /etc/udev/rules.d/70-persistent-net.rules
+然后修改主机名，重新配置网络，init6重启
+

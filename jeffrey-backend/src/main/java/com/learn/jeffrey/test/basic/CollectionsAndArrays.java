@@ -3,12 +3,9 @@ package com.learn.jeffrey.test.basic;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
 
 /**
  * @author lijianfei
@@ -18,32 +15,36 @@ import java.util.Vector;
  */
 @Slf4j
 public class CollectionsAndArrays extends StreamTest {
+    public String test="q";
     public CollectionsAndArrays() {
         super();//帮助子类做初始化
         System.out.println("CollectionsAndArrays");
     }
 
     public static void main(String[] args) {
-
+        test1();
+        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
+        execute();
 
     }
 
+    public static void execute(){
+
+        Executor executor = new Invoker();
+        executor.execute(()->{
+            System.out.println("---------cesu9");
+        });
+    }
+    static class Invoker implements Executor{
+
+        @Override
+        public void execute(Runnable command) {
+            command.run();
+        }
+    }
     public void CollectionTest() {
-        ArrayList<String> arrayList = new ArrayList<>();
 
-        LinkedList<String> linkedList = new LinkedList<>();
 
-        Vector<String> vector = new Vector<>();
-
-        HashMap hashMap = new HashMap();
-        hashMap.put("ss","q");
-
-        HashMap<String, Object> a = new HashMap<>();
-        a.put("ss","q");
-
-        Hashtable hashtable = new Hashtable();
-
-        HashSet hashSet = new HashSet();
 
     }
 
@@ -76,7 +77,7 @@ public class CollectionsAndArrays extends StreamTest {
         return true;
     }
 
-    public void test1() {
+    public static void test1() {
 
         //System.out.print(isNotNull("",""));
 
@@ -117,6 +118,9 @@ public class CollectionsAndArrays extends StreamTest {
 		list.add("test3");
 		list.add("test4");
 		list.add("test5");
+		list.parallelStream().forEach(i->{
+            System.out.println(i);
+        });
 //		list.stream().count();
 //		log.info("原始列表:{}", list);
         // void reverse(List<?> list): 反转
