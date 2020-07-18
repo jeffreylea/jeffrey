@@ -17,6 +17,9 @@ public class ProfileActiveTest {
 	
 	@Value("${test.config.name}")
 	private String name;
+
+	@Value(value = "${task.cron}")
+	private String cron;
 	
 	/**
 	 * 接收参数时可以加注解@RequestParam("age")，默认true是必传的，也可设置false
@@ -27,6 +30,11 @@ public class ProfileActiveTest {
 	@GetMapping("profiles")
 	public String testProfile(@RequestParam("age")String age) {
 		return name+":"+age;
+	}
+
+	@GetMapping("cron")
+	public String testCron() {
+		return cron;
 	}
 
 }

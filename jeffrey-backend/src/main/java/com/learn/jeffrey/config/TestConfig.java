@@ -1,13 +1,11 @@
 package com.learn.jeffrey.config;
 
-import javax.sql.DataSource;
-
+import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.zaxxer.hikari.HikariDataSource;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.sql.DataSource;
 
 /**
  * @author lijianfei

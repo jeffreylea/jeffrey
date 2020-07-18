@@ -1,3 +1,5 @@
 test:
   config:
     name: "jeffrey-dev"
+task:
+  cron: "* * * * * ?"

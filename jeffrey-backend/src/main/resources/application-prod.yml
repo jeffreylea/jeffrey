@@ -1,6 +1,8 @@
 test:
   config:
     name: "jeffrey-prod"
+task:
+  cron: "* * * * * ?"
 spring:
   security:
     user:

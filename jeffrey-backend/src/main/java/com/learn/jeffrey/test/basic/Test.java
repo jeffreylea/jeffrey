@@ -1,11 +1,22 @@
 package com.learn.jeffrey.test.basic;
 
+import lombok.SneakyThrows;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashSet;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Description <P></P>
@@ -13,9 +24,16 @@ import java.util.concurrent.locks.ReentrantLock;
  * @Author lijianfei
  * @Date 2020/6/22 17:55
  **/
+
 public class Test {
     private static int value1 = 0;
     private static int value2 = 0;
+
+    private String value4 = "q";
+    private String value5 = "q";
+    private String value6 = "q";
+    private String value7 = "q";
+
 
     private static synchronized void increaceValue2() {
         value2++;
@@ -23,10 +41,98 @@ public class Test {
 
     private static AtomicInteger value3 = new AtomicInteger(0);
 
-    public static void main(String[] args) throws InterruptedException {
+    private static final ThreadLocal threadSession = new ThreadLocal();
+
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        int i=0;
+        for (;;){
+            System.out.println(i++);
+        }
+    }
+
+    public static void testLock() {
+        ReadWriteLock readWriteLock;
+        Semaphore semaphore = new Semaphore(5);
+        try {
+            semaphore.acquire();
+            try {
+
+            } catch (Exception e) {
+
+            } finally {
+                semaphore.release();
+            }
+        } catch (Exception e) {
+
+        }
+        Lock lock = new ReentrantLock();
+        Condition condition = lock.newCondition();
+        try {
+            lock.lock();
+            System.out.println("开始wait");
+            condition.await(20, TimeUnit.SECONDS);
+            condition.signal();
+            System.out.println("" + Thread.currentThread().getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+
+    }
+
+    static class MyThread extends Thread implements Runnable {
+        public void run() {
+            System.out.println("线程类");
+        }
+    }
+
+    static class MyRunnable extends HashSet implements Runnable {
+
+        @Override
+        public void run() {
+            System.out.println("runnable线程类");
+        }
+    }
+
+    public static void test2() throws ClassNotFoundException {
+        ClassLoader clazzLoader = new ClassLoader() {
+            @Override
+            public Class<?> loadClass(String name) throws ClassNotFoundException {
+                try {
+                    String clazzName = name.substring(name.lastIndexOf(".") + 1) + ".class";
+
+                    InputStream is = getClass().getResourceAsStream(clazzName);
+                    if (is == null) {
+                        return super.loadClass(name);
+                    }
+                    byte[] b = new byte[is.available()];
+                    is.read(b);
+                    return defineClass(name, b, 0, b.length);
+                } catch (IOException e) {
+                    throw new ClassNotFoundException(name);
+                }
+            }
+        };
+        String currentClass = "com.learn.jeffrey.test.basic.Test";
+        Class<?> clazz = clazzLoader.loadClass(currentClass);
+        System.out.println(System.getProperty("sun.boot.class.path"));
+        ClassLoader loader = Test.class.getClassLoader();
+        while (loader != null) {
+            System.out.println(loader);
+            loader = loader.getParent();
+        }
+        System.out.println(loader);
+    }
+
+    public static void test() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(3);
         countDownLatch.countDown();
-        ExecutorService  service = Executors.newCachedThreadPool();
+        ExecutorService service = Executors.newCachedThreadPool();
 
         AtomicInteger atomicInteger = new AtomicInteger();
 
@@ -34,31 +140,40 @@ public class Test {
         atomicInteger.incrementAndGet();
         for (int i = 0; i < 1000; i++) {
             new Thread(new Runnable() {
+                @SneakyThrows
                 @Override
                 public void run() {
-                    test1();
-                    increaceValue2();
-                    value3.incrementAndGet();
+                    while (true) {
+                        sleep(1000);
+                        test1();
+                        increaceValue2();
+                        value3.incrementAndGet();
+                        System.out.println("value1=" + value1);
+                        System.out.println("value2=" + value2);
+                        System.out.println("value3=" + value3);
+                    }
                 }
-            }){
+            }) {
 
             }.start();
         }
 
-        Thread.sleep(1000);
+        sleep(1000);
         System.out.println(value1);
         System.out.println(value2);
         System.out.println(value3);
     }
 
-    public void reentrantLockTest(){
+    public void reentrantLockTest() {
         Lock lock = new ReentrantLock();
     }
-    public static void test1(){
-        synchronized (""){
+
+    public static void test1() {
+        synchronized ("") {
             value1++;
         }
     }
+
     public static int romanToInt(String s) {
         int sum = 0;
         int preNum = getValue(s.charAt(0));
@@ -94,5 +209,11 @@ public class Test {
             default:
                 return 0;
         }
+    }
+
+    public int add() {
+        int a = 1;
+        int b = 2;
+        return a + b;
     }
 }
