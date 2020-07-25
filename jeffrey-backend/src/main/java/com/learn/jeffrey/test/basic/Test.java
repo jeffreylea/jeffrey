@@ -4,7 +4,9 @@ import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -47,10 +49,57 @@ public class Test {
     /**
      * @param args
      */
-    public static void main(String[] args) {
-        int i=0;
-        for (;;){
-            System.out.println(i++);
+    public static void main(String[] args)  {
+
+
+        List<A> aList = new ArrayList<A>();
+        A a=new A();
+        B b=new B();
+
+        aList.add(a);
+        aList.add(b);
+        for (A item : aList) {
+            System.out.println(item.getClass() + ":" + item.toString());
+            // class atest.A:A [name=a1]
+            // class atest.B:B [name=b1, sex=true]
+        }
+    }
+
+    static class A{
+        int age=12;
+    }
+    static class B extends A{
+        String name = "";
+    }
+    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        while (l1 != null) {
+            while (l2!=null){
+                if (l1.val > l2.val) {
+
+                    l2=l2.next;
+                }else {
+                    l1=l1.next;
+                }
+            }
+
+        }
+        return null;
+    }
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
         }
     }
 

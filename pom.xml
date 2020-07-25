@@ -35,6 +35,6 @@
 	<modules>
 		<module>jeffrey-backend</module>
 		<module>jeffrey-learn-springboot</module>
-		<module>test</module>
+		<module>jeffrey-zuul</module>
 	</modules>
 </project>

@@ -325,3 +325,78 @@ b、删除文件/etc/udev/rules.d/70-persistent-net.rules
 rm -rf /etc/udev/rules.d/70-persistent-net.rules
 然后修改主机名，重新配置网络，init6重启
 
+1.	安装mysql 数据库
+sudo yum install -y mysql-server
+2.	数据库字符集的设置（命令：sudo vi /etc/my.cnf）
+在/etc/my.cnf文件中最后加入default-character-set=utf8 
+3.	启动 mysql 服务
+sudo service mysqld start
+sudo service mysqld status  //查看mysql是否启动
+sudo chkconfig mysqld on  //设置mysql开机自动启动
+4.	设置 mysql 的 root 密码为123456
+mysql -uroot -p
+Enter password:           //默认密码为空，输入回车即可
+mysql>set password for root@localhost=password('inspur');  //密码设置为pwd
+mysql>quit
+
+mysql不允许外部主机连接解决方法：
+登陆数据库：mysql -uroot -p 
+默认密码为空。use mysql;
+update user set host='%' where user='root';
+service mysqld restart即可解决
+
+卸载mysql:
+查找已经安装的mysql：rpm -qa|grep mysql
+yum -y remove XX 已经安装的mysql
+
+centos6.5安装mysql5.7过程
+-------------
+wget dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm
+yum install mysql-community-release-el6-5.noarch.rpm
+安装成功后，我们可以看到/etc/yum.repos.d/目录下增加了以下两个文件
+mysql-community.repo、mysql-community-source.repo
+
+
+查看mysql57的安装源是否可用，如不可用请自行修改配置文件（/etc/yum.repos.d/mysql-community.repo）使mysql57下面的enable=1
+yum repolist enabled | grep mysql
+安装mysql5.7:
+yum install mysql-community-server
+
+
+
+Linux文件系统：
+      |---/bin 存放二进制可执行文件(ls,cat,mkdir),常用的一些命令都在这里。
+      |---/etc 存放系统管理和配置文件
+root--|---/home 用户文件根目录
+      |---/usr 用户存放系统应用程序
+      |---/opt 额外安装的可选安装应用程序包
+      |---/proc 虚拟文件系统目录，是系统内存的映射，可直接访问这个文件获取系统信息
+      |---/root 超级用户的主目录
+      |---/sbin 存放二进制可执行文件，只有root才能访问，系统管理员使用的系统级别的命令和程序
+      |---/dev 用于存放设备文件
+      |---/mnt 系统管理员安装临时文件系统的安装点，系统提供这个目录是让用户临时挂载其他的文件系统。
+      |---/boot 存放用于系统引导时使用的各种文件
+      |---/lib 存放着和系统运行相关的库文件
+      |---/tmp 用于存放各种临时文件，是公用的临时文件存储点
+      |---/lib 用于存放运行时需要改变数据的文件，也是某些大文件的溢出区，比方说各种服务的日志文件（系统启动日志等。）等
+      |---/lost+found 这个目录平时是空的，系统非正常关机而留下“无家可归”的文件（windows下叫什么.chk）就在这里。
+      
+centos yum 安装JDK：
+---------
+1.yum search java| grep jdk
+2.yum install java-1.8.0-openjdk
+
+kafka安装：
+下载：
+https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz
+解压：
+tar -zxvf kafka_2.12-2.5.0.tgz
+
+启动zookeeper: 
+./bin/zookeeper-server-start.sh ./config/zookeeper.properties
+开另一窗口启动kafka:
+./bin/kafka-server-start.sh ./config/server.properties
+
+netstat -ntlp 命令查看端口使用情况，zookeeper默认的2181端口和kafka默认的9092端口。
+lsof命令不可用：yum install lsof安装
+

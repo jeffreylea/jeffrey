@@ -22,3 +22,6 @@ pom中需添加依赖和插件：
     </build>
 ```
   代码
+    
+  mybatis启用二级缓存：  
+  ` <setting name="cacheEnabled" value="true"/>`
