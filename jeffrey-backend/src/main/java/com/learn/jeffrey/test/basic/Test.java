@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Stack;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,7 +52,7 @@ public class Test {
      */
     public static void main(String[] args)  {
 
-
+        Stack<Integer> stack;
         List<A> aList = new ArrayList<A>();
         A a=new A();
         B b=new B();
@@ -60,6 +61,9 @@ public class Test {
         aList.add(b);
         for (A item : aList) {
             System.out.println(item.getClass() + ":" + item.toString());
+            if (item instanceof B){
+                System.out.println(((B) item).name);
+            }
             // class atest.A:A [name=a1]
             // class atest.B:B [name=b1, sex=true]
         }
@@ -69,7 +73,7 @@ public class Test {
         int age=12;
     }
     static class B extends A{
-        String name = "";
+        String name = "w";
     }
     public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         while (l1 != null) {
