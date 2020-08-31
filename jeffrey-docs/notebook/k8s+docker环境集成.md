@@ -18,3 +18,111 @@ docker search mysql
  docker --version
 Docker version 1.7.1, build 786b29d
 查资料的过程中说是要创建一个自己的镜像仓库，以前知道JFrog Artifactory是管理镜像仓库的工具。docker默认的是docker hub 镜像管理工具。
+
+-----
+3. 容器常用的管理命令
+    docker run 创建并启动一个容器，在run后面加上-d参数，则会创建一个守护式容器在后台运行。
+    docker ps -a 查看已经创建的容器
+    docker ps -s 查看已经启动的容器
+    docker start con_name 启动容器名为con_name的容器
+    docker stop con_name 停止容器名为con_name的容器
+    docker rm con_name 删除容器名为con_name的容器
+    docker rename old_name new_name 重命名一个容器
+    docker attach con_name 将终端附着到正在运行的容器名为con_name的容器的终端上面去，前提是创建该容器时指定了相应的sh
+执行这个命令后，按下回车键，会进入容器的命令行Shell中。
+    docker logs con_name 获取容器名为con_name的容器日志
+    docker inspect 查看容器的详细信息
+    docker top con_name 查看容器名为con_name的容器内部的进程
+    docker exec 可以用来在容器中运行一个进程
+
+创建
+
+1.1 docker基本信息查看
+
+（1）docker version：查看docker的版本号，包括客户端、服务端、依赖的Go等 ；
+
+ 
+
+（2）docker info ：查看系统(docker)层面信息，包括管理的images, containers数等；
+
+ 
+
+1.2 docker镜像的获取与删除
+
+(1) docker pull centos ：下载centos所有的镜像
+
+ 
+
+(2)docker pull centos:centos6  下载centos6镜像
+
+ 
+
+(3)docker images  查看本机所有的镜像包
+
+ (4)docker images -a  列出所有的images（包含历史）
+
+（5）构建镜像
+
+docker build -f Dockerfile -t jeffrey/platform-feign-1.2.0.jar:1.2.0 .
+
+2，容器的创建
+#docker run -it  centos:centso6 test      创建容器
+#docker run -it -p 8001:80 --name nginx01 -h nginx ng1 /bin/bash   创建并指定端口号映射
+
+docker run -P 8180:8180 jeffrey/platform-feign-1.2.0.jar
+
+#docker ps -a                   列出已经创建的容器
+
+删除docker镜像：
+docker rmi imagesid
+
+停止容器：
+docker stop imagesid
+
+修改容器中语言：
+export LANG=zh_CN.UTF-8
+
+#docker exec -it  id  /bin/bash               我们还可以通过指定参数，启动一个bash交互终端
+----
+
+
+
+#  K8s使用
+
+### 进入pod查看mysql最大连接数
+
+进入Pod内部执行相关操作: 
+
+ kubectl exec -it pod-name /bin/sh  
+登陆mysql：mysql -uroot -pXXXXX
+执行：show variables like "%max_connections%";
+命令行修改最大连接数为1000： set global max_connections = 1000;
+
+### namespace操作
+
+查询namespace： kubectl get namespace
+
+创建namespace： kubectl create namespace jeffrey
+
+### 查看当前pod的yaml配置文件
+
+kubectl get pods -n jeffrey -o yaml
+
+### 查看一个或多个资源的详细信息
+
++ 查看pod详细信息 
+
+  kubectl describe pod podname
+
+### k8s中**imagePullSecrets**是什么？怎么使用？
+
+imagePull
+
+
+
+
+
+
+
+
+

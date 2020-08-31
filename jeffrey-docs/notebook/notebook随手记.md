@@ -14,7 +14,7 @@ https://jenkins.io/zh/doc/book/blueocean/
 消息中间件学习：
 
 appolo学习：
-![](../basic/image/无标题.png)
+![](../image/无标题.png)
 
 Spring Security Oauth2中获取token接口：oauth/token，这个接口在TokenEndpoint这个类里，
 这个类在`org.springframework.security.oauth2.provider.endpoint`这个包下面。
@@ -27,7 +27,7 @@ userIdList.toArray(new String[] {})
 userIdList.toArray(new String[0])
 
 
-    
+​    
  ```
  public Object[] toArray() {
         return Arrays.copyOf(elementData, size);
@@ -42,7 +42,7 @@ userIdList.toArray(new String[0])
             a[size] = null;
         return a;
     }
-```
+ ```
 
 # 使用collection标签实现嵌套查询
 
@@ -169,7 +169,7 @@ Can't start StopWatch: it's already running
 # java.util.concurrent包
 这是java的并发工具包，java5开始添加的，它使得并发变成更加容易。
  + Executor接口
-  
+
 ```
 public interface Executor {
     void execute(Runnable command);
