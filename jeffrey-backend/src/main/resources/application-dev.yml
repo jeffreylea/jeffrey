@@ -2,4 +2,4 @@ test:
   config:
     name: "jeffrey-dev"
 task:
-  cron: "* * * * * ?"
+  cron: "1 * * * * ?"

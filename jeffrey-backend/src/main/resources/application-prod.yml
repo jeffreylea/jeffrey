@@ -2,7 +2,7 @@ test:
   config:
     name: "jeffrey-prod"
 task:
-  cron: "* * * * * ?"
+  cron: "1 * * * * ?"
 spring:
   security:
     user:
@@ -17,9 +17,12 @@ management:
 #  server:
 #    port: 9030
   endpoints:
-    web: 
-      exposure: 
+    web:
+      exposure:
         include: '*'  # 包含端点，可以访问；多端点之间用逗号分隔
-  endpoint: 
-    health:  
+  endpoint:
+    health:
       show-details: always
+zookeeper:
+  address: 127.0.0.1:2181
+  timeout: 4000

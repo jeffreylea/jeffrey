@@ -28,7 +28,7 @@ public class TestConfig {
 		HikariDataSource ds = new HikariDataSource();
 		ds.setJdbcUrl("jdbc:mysql://localhost:3306/test");
 		ds.setUsername("root");
-		ds.setPassword("admin");
+		ds.setPassword("inspur123!@#");
 		return ds;
 	}
 

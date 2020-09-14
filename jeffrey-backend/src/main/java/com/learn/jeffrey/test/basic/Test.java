@@ -51,7 +51,6 @@ public class Test {
      * @param args
      */
     public static void main(String[] args)  {
-
         Stack<Integer> stack;
         List<A> aList = new ArrayList<A>();
         A a=new A();

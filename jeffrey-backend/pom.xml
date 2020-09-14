@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
-			
+
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
 		<dependency>
@@ -93,9 +93,18 @@
         </exclusion>
       </exclusions>
     </dependency>
+		<!--security依赖-->
+		<!-- 注意是starter,自动配置 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!--oauth2依赖-->
+		<!-- 不是starter,手动配置 -->
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>2.3.2.RELEASE</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.openjdk.jol/jol-core -->
 		<dependency>
@@ -106,7 +115,12 @@
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
-
+		</dependency>
+		<!--引入zookeeper-->
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.5.5</version>
 		</dependency>
 	</dependencies>
 
