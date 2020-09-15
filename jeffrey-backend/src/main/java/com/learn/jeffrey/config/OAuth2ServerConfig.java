@@ -4,7 +4,10 @@
 package com.learn.jeffrey.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +21,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+
+import javax.sql.DataSource;
 
 /**
  * Description <P></P>
@@ -61,6 +70,14 @@ public class OAuth2ServerConfig {
     @EnableAuthorizationServer
     protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
+        @Value("${accessToken.validity.timeout:-1}")
+        private int accessTokenValidity;
+
+        @Value("${refreshToken.validity.timeout:-1}")
+        private int refreshTokenValidity;
+
+        @Autowired
+        private DataSource dataSource;
         @Autowired
         AuthenticationManager authenticationManager;
         @Autowired
@@ -94,6 +111,7 @@ public class OAuth2ServerConfig {
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
             endpoints
  //                   .tokenStore(new RedisTokenStore(redisConnectionFactory))
+                    .tokenServices(tokenServices())
                     .authenticationManager(authenticationManager)
                     .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
         }
@@ -105,5 +123,27 @@ public class OAuth2ServerConfig {
             oauthServer.allowFormAuthenticationForClients();
         }
 
+        // 配置TokenServices参数
+        @Primary
+        @Bean
+        public AuthorizationServerTokenServices tokenServices() {
+            DefaultTokenServices tokenServices = new DefaultTokenServices();
+            tokenServices.setAccessTokenValiditySeconds(accessTokenValidity); // 默认不失效
+            tokenServices.setRefreshTokenValiditySeconds(refreshTokenValidity);// 默认不失效
+            tokenServices.setSupportRefreshToken(true);
+            tokenServices.setReuseRefreshToken(false);
+            //tokenServices.setTokenEnhancer(jwtAccessTokenConverter());
+            tokenServices.setTokenStore(jdbcTokenStore());
+            return tokenServices;
+        }
+
+        /**
+         * 配置tokenStore
+         * @return
+         */
+        @Bean
+        public TokenStore jdbcTokenStore() {
+            return new JdbcTokenStore(dataSource);
+        }
     }
 }

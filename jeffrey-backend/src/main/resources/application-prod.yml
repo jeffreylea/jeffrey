@@ -26,3 +26,9 @@ management:
 zookeeper:
   address: 127.0.0.1:2181
   timeout: 4000
+accessToken:
+  validity:
+    timeout: 7200
+refreshToken:
+  validity:
+    timeout: 86400
