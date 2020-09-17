@@ -14,6 +14,12 @@ ll /proc/进程号/cwd
 给redis设置密码：
 redis-cli->config set requirepass inspur123!@# 
 
+redis远程密码登陆
+
+1、redis-cli.exe -h 127.0.0.1 -p 6379
+
+2、输入密码命令：auth 密码
+
 + useradd:
 
 创建用户user1: useradd user1
