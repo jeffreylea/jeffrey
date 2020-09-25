@@ -36,5 +36,6 @@
 		<module>jeffrey-backend</module>
 		<module>jeffrey-learn-springboot</module>
 		<module>jeffrey-zuul</module>
-	</modules>
+        <module>jeffrey-learn-security</module>
+    </modules>
 </project>
