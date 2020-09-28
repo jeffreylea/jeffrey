@@ -1,5 +1,6 @@
 package com.learn.jeffrey.security;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,8 @@ public class UserController {
 
     @RequestMapping("/hello2")
     public String hello2(){
-        return "hello2";
+        String test = SecurityContextHolder.getContext().getAuthentication().getName();
+        return test;
     }
 
     @RequestMapping("/hello3")
