@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Author lijianfei
  * @Date 2020/9/17 9:57
  **/
+
 @SpringBootApplication
 public class JeffreyLearnSecurityApplication {
     public static void main(String[] args) {

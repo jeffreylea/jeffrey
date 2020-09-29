@@ -1,15 +1,19 @@
 package com.learn.jeffrey.security.config;
 
+import com.learn.jeffrey.security.repo.mapper.UserMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * Description <P></P>
@@ -21,6 +25,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private UserMapper userMapper;
     private Log log = LogFactory.getLog(getClass());
 
     @Override
@@ -42,12 +48,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        //InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         //manager.createUser(User.withUsername("jeffrey").password(new BCryptPasswordEncoder().encode("admin")).authorities("p1").build());
-        manager.createUser(User.withUsername("jeffrey").password("admin").authorities("user").build());
-        return manager;
+        //manager.createUser(User.withUsername("jeffrey").password("admin").authorities("user").build());
+        return new DBUserDetailsService();
     }
 
+    public class DBUserDetailsService implements UserDetailsService{
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            com.learn.jeffrey.security.repo.po.User user = userMapper.selectByPrimaryKey(1);
+            return new User(user.getUsername(),user.getPassword(),true, true, true, true, AuthorityUtils.NO_AUTHORITIES);
+        }
+    }
 
     /**
      * 密码加密器

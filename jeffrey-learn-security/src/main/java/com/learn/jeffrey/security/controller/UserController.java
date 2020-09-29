@@ -1,4 +1,4 @@
-package com.learn.jeffrey.security;
+package com.learn.jeffrey.security.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
