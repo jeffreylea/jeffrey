@@ -36,8 +36,8 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.learn.jeffrey.security.repo.mapper"
                              targetProject="src\main\java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="user">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        <table tableName="sys_role_menu">
+<!--            <generatedKey column="user_id" sqlStatement="MySql" identity="true"/>-->
         </table>
     </context>
 </generatorConfiguration>

@@ -18,7 +18,7 @@ public class UserController {
         return "hello";
     }
 
-    @RequestMapping("/hello2")
+    @RequestMapping(value = "/hello2")
     public String hello2(){
         String test = SecurityContextHolder.getContext().getAuthentication().getName();
         return test;
