@@ -1,4 +1,4 @@
-package com.learn.jeffrey.security.service.impl;
+package com.learn.jeffrey.security.service;
 
 /**
  * Description <P></P>
@@ -7,4 +7,6 @@ package com.learn.jeffrey.security.service.impl;
  * @Date 2020/9/29 10:45
  **/
 public interface IUserService {
+
+
 }
