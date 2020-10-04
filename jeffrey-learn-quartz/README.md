@@ -1,0 +1,17 @@
+Job和JobDetail
+JobExecutionContext
+JobDataMap
+Trigger、SimpleTrigger、CronTrigger
+
+1.Job是quartz中的一个接口，实现方法execute，编写业务逻辑；JobDetail用来绑定Job，为Job实例提供许多属性：
++ name
++ group
++ jobClass
++ jobDataMap
+
+JobDetail绑定指定的Job， 每次Scheduler调度执行一个Job的时候，首先会拿到对应的Job,然后创建Job实例，再去执行Job中的execute的内容。
+
+JobDetail 定义的是任务数据，而真正的执行逻辑在Job中，
+这是因为任务有可能是并发执行，如果scheduler直接使用Job，就会存在对同一个Job实例并发访问的问题，而Job和JobDetail的方式，scheduler每次执行，都会根据JobDetail创建一个新的Job实例，避免了并发访问问题。
+
+JobExecutionContext中包含了Quartz运行的环境以及Job本身的详细数据，schedule调度Job的时候将JobExecutionContext传递给Job，Job就可以获取JobExecutionContext信息。
