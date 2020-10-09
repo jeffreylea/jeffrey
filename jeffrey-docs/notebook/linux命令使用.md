@@ -4,12 +4,23 @@
 
 原意：list，
 
-+ netstat:
++ **netstat:**
 
 根据端口号查找进程号，查找程序路径
 netstat -nlp | grep 端口号
 得到PID后，执行命令：
 ll /proc/进程号/cwd
+
+```
+params:
+-n, --numeric              don't resolve names-> 不根据IP解析机器名
+-l, --listening            display listening server sockets->展示监听服务套接字连接
+-p, --programs             display PID/Program name for sockets-> 展示套接字的程序名称和PID
+
+
+```
+
+
 
 给redis设置密码：
 redis-cli->config set requirepass inspur123!@# 
@@ -178,10 +189,6 @@ gpasswd：为组添加用户，gpasswd -a user1 usergroup
 
   
 
-### linux /proc目录
-
-是一种虚拟文件系统，存储的
-
 ### Linux 网络配置
 
 网络配置文件位置：/etc/sysconfig/network-scripts	
@@ -292,5 +299,33 @@ mageshm:x:506:507:2g Admin - Magesh M:/home/mageshm:/bin/bash
 **用户信息（2g Admin - Magesh M）：代表描述字段，可以用来描述用户的信息（LCTT 译注：此处原文疑有误）。
 **家目录（/home/mageshm）：代表用户的家目录。
 **Shell（/bin/bash）：代表用户使用的 shell 类型。
+```
+
+**防火墙配置**
+
+配置文件位置： /etc/sysconfig/iptables
+
+
+
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+
+
+
+**```/etc/init.d```** 目录说明：存放系统服务管理脚本，用service 命令可以执行init.d目录中相应的脚本
+
+
+
+**```/proc``` ** 目录是一种文件系统，存储的是当前内核运行状态的一系列特殊文件，用户可以查看有关系统硬件和运行进程的一些信息，甚至可以改变他们。
+
+
+
+**```/var```** 存储各种变化的文件
+
+
+
+
+
+```
+
 ```
 
