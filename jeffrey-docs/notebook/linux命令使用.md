@@ -1,4 +1,4 @@
-# Linux命令学习
+### **Linux 常用操作记录**
 
 + ls
 
@@ -189,7 +189,7 @@ gpasswd：为组添加用户，gpasswd -a user1 usergroup
 
   
 
-### Linux 网络配置
+### **Linux 网络配置**
 
 网络配置文件位置：/etc/sysconfig/network-scripts	
 
@@ -273,7 +273,7 @@ fi
 
   两者是一样的，在命令行里test expr和[ expr ]的效果相同。[]
 
-### 查看Linux用户相关信息
+### **查看Linux用户相关信息**
 
 Linux系统中用户信息放在/etc/passwd下，包含每个用户的基本信息，每行记录一个用户的基本信息。改文件包含三部分。
 
@@ -301,31 +301,62 @@ mageshm:x:506:507:2g Admin - Magesh M:/home/mageshm:/bin/bash
 **Shell（/bin/bash）：代表用户使用的 shell 类型。
 ```
 
-**防火墙配置**
+### **防火墙配置**
 
 配置文件位置： /etc/sysconfig/iptables
 
-
-
 -A FORWARD -j REJECT --reject-with icmp-host-prohibited
-
-
 
 **```/etc/init.d```** 目录说明：存放系统服务管理脚本，用service 命令可以执行init.d目录中相应的脚本
 
-
-
 **```/proc``` ** 目录是一种文件系统，存储的是当前内核运行状态的一系列特殊文件，用户可以查看有关系统硬件和运行进程的一些信息，甚至可以改变他们。
-
-
 
 **```/var```** 存储各种变化的文件
 
+### **SSH免密登陆**
 
 
 
+A电脑：192.168.95.12
 
-```
+B电脑：192.168.95.10
 
-```
+设置hosts：
 
+vim /etc/hosts
+
+#添加
+
+192.168.95.12 serverA
+
+192.168.95.10 serverB
+
+serverA服务器使用ssh-keygen工具生成公私钥对：
+
+ssh-keygen命令，输入三个回车：
+
+![image-20201010145641228](D:\JeffreyLearn\jeffrey\jeffrey-docs\image\media\linux命令使用\image-20201010145641228.png)
+
+到~/.ssh目录下可以看到id_rsa、 id_rsa.pub两个文件
+
+将id_rsa.pub复制到serverB：
+
+使用ssh-copy-id -i id_rsa.pub root@serverB命令操作：
+
+![image-20201010150720012](D:\JeffreyLearn\jeffrey\jeffrey-docs\image\media\linux命令使用\image-20201010150720012.png)
+
+到serverB服务器下查看~/ .ssh目录，发现多了authorized_keys，这个文件的内容和serverA中的id_rsa.pub是相同的
+
+此时已经可以serverA已经可以免密登陆到serverB，可以测试下：
+
+ssh serverB,发现已经不需要输入密码了。
+
+使用同样的操作使得serverB免密登陆到serverA，这样两个服务器可以相互免密登陆
+
+
+
+使用ssh登陆本机的时候，发现也需要密码登陆，按照上面的操作，将生成的公钥复制到本机下：
+
+ssh-copy-id -i .ssh/id_rsa.pub root@serverA
+
+查看本机的.ssh/authorized_keys 文件，已经多了本机的公钥，再次ssh登陆本机，发现已经不需要密码登陆了。

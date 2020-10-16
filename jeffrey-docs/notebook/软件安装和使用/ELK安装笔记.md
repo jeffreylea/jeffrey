@@ -114,7 +114,7 @@ vim /etc/logstash/jvm.options
 
 电脑性能不好，运行较慢，差点认为又不行，
 
-![image-20201008103458106](D:\JeffreyLearn\jeffrey\jeffrey-docs\image\media\ES安装笔记\image-20201008103458106.png)
+![image-20201008103458106](..\image\media\ES安装笔记\image-20201008103458106.png)
 
 测试输出到文件：
 
@@ -165,6 +165,27 @@ Configuration OK
 ./logstash --path.settings /etc/logstash/  -f /etc/logstash/conf.d/logstash-test.conf
 
 
+
+### **ELK常见的几种架构**
+ELK是Elasticsearch + Logstash + Kibana 这种架构的简写。
+
+这是一种日志分平台析的架构。从前我们用shell三剑客(grep, sed, awk)来分析日志, 虽然也能对付大多数场景，但当日志量大，分析频繁，并且使用者可能不会shell三剑客的情况下， 配置方便，使用简单，并且分析结果更加直观的工具(平台)就诞生了，它就是ELK
+
++ **Elasticsearch + Logstash + Kibana**
+
+  这是一种最简单的架构。这种架构，通过logstash收集日志，Elasticsearch分析日志，然后在Kibana(web界面)中展示。这种架构虽然是官网介绍里的方式，但是往往在生产中很少使用。
+
++ **Elasticsearch + Logstash + filebeat + Kibana**
+
+  与上一种架构相比，这种架构增加了一个filebeat模块。filebeat是一个轻量的日志收集代理，用来部署在客户端，优势是消耗非常少的资源(较logstash)， 所以生产中，往往会采取这种架构方式，但是这种架构有一个缺点，当logstash出现故障， 会造成日志的丢失。
+
++ **Elasticsearch + Logstash + filebeat + redis(也可以是其他中间件，比如kafka) + Kibana**
+
+  这种架构是上面那个架构的完善版，通过增加中间件，来避免数据的丢失。当Logstash出现故障，日志还是存在中间件中，当Logstash再次启动，则会读取中间件中积压的日志。目前我司使用的就是这种架构，我个人也比较推荐这种方式。
+
+  **架构图：**
+
+  ![ELK架构图](../image/media/ES安装笔记/ELK架构图.png)
 
 
 

@@ -49,3 +49,10 @@ git config user.email "email"
 
 本地代码与远程代码关联，添加远程地址：
 git remote add origin xxxurlXX
+
+
+
+`git restore <file>` 将在工作空间但不在暂存区的文件撤销更改
+
+git restore --staged <file> 将暂存区的文件从暂存区撤出，但不会更改文件
+
