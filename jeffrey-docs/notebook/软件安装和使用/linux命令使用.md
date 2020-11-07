@@ -17,10 +17,32 @@ params:
 -l, --listening            display listening server sockets->展示监听服务套接字连接
 -p, --programs             display PID/Program name for sockets-> 展示套接字的程序名称和PID
 
-
 ```
 
++ ps
 
+  显示系统进程
+
+  -e all processes
+
+  -f full
+
+  -a  all w/ tty, including other users
+
+  -u by effective user ID (supports names)
+
+  -x  processes w/o controlling ttys
+
+  ```
+  ps -ef  是用标准的格式显示进程的
+  ps -aux 使用BSD的格式显示进程的
+  用户ID      进程ID  父进程ID  进程占用CPU的百分比   进程启动到现在的时间                    命令的名称和参数
+  UID        PID     PPID      C                  STIME           TTY          TIME CMD
+  
+  
+  ```
+
+  
 
 给redis设置密码：
 redis-cli->config set requirepass inspur123!@# 
@@ -360,3 +382,9 @@ ssh serverB,发现已经不需要输入密码了。
 ssh-copy-id -i .ssh/id_rsa.pub root@serverA
 
 查看本机的.ssh/authorized_keys 文件，已经多了本机的公钥，再次ssh登陆本机，发现已经不需要密码登陆了。
+
+
+
+
+
+信息发布：，远程控制，会控，设备管理，

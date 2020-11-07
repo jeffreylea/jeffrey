@@ -52,3 +52,5 @@ http://192.168.95.12:9000 访问，默认用户名密码为：minioadmin/minioad
 参考资料
 
 minio快速指导: [官方文档](https://docs.min.io/cn/minio-quickstart-guide.html)
+
+[Minio Cookbook 中文版](https://www.bookstack.cn/books/MinioCookbookZH)

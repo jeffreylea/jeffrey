@@ -120,9 +120,38 @@ imagePull
 
 
 
+centos7下安装docker：
 
+yum install docker
 
+启动：
 
+systemctl start docker
+
+出现错误：
+
+Job for docker.service failed because the control process exited with error code. See "systemctl status docker.service" and "journalctl -xe" for details.
+
+解决：
+
+查看docker版本：docker version 只有client，没有server
+
+执行 vi /etc/sysconfig/selinux , 把 selinux 属性值改为disabled。然后重启系统。
+
+```
+[root@serverA docker]# vi /etc/sysconfig/selinux
+[root@serverA docker]# reboot
+重新启动后启动docker：
+[root@serverA ~]# systemctl start docker
+[root@serverA ~]# docker images
+
+```
+
+k8s的endpoint
+
+endpoint是k8s集群中的一个资源对象，存储在etcd中，用来记录一个service对应的所有pod的访问地址，
+
+etcd是一个高可用的分布式键值数据库。service配置selector，endpoint controller才会自动创建对应的endpoint对象；否则，不会生成endpoint对象.ENDPOINTS就是service关联的pod的ip地址和端口，一个service有一个或多个实例。
 
 
 

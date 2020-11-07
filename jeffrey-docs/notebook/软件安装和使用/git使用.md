@@ -56,3 +56,13 @@ git remote add origin xxxurlXX
 
 git restore --staged <file> 将暂存区的文件从暂存区撤出，但不会更改文件
 
+
+
+
+
+git pull origin master 拉取下载指定master分支代码合并到当前分支
+
+git fetch 
+
+git pull =git fetch+ git merge
+
