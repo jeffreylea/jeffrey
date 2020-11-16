@@ -4,6 +4,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Description <P></P>
  *
@@ -19,7 +21,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/hello2")
-    public String hello2(){
+    public String hello2(HttpServletRequest request){
+        String authCode = request.getHeader("authCode");
+        System.out.println("设备接口认证参数authCode="+authCode);
         String test = SecurityContextHolder.getContext().getAuthentication().getName();
         return test;
     }

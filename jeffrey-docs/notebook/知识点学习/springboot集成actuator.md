@@ -1,3 +1,5 @@
+
+
 actutor是springboot提供的用来对应用系统进行监控的模块。可以用它来检查项目的运行情况。
 1.Springboot 集成actuator需要引入包actuator  
 <!-- 引入Actuator监控依赖 -->

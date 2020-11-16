@@ -1,5 +1,8 @@
-**“Too many connections”引起MySQL崩溃并启动失败**
+
+
+“Too many connections”引起MySQL崩溃并启动失败**
 ------------
+
 https://blog.51cto.com/10950710/2160220
 
 show variables like '%max_connections%'; 查看最大连接数
@@ -63,3 +66,22 @@ BLOB 是一个二进制对象，可以容纳可变数量的数据。TEXT 是一�
 索引是帮助mysql高效获取数据的排好序的数据结构。
 
 B-tree
+
+### 高版本sql_mode=only_full_group_by问题
+
+这个错误发生在mysql 5.7 版本及以上版本会出现的问题：
+
+​    mysql 5.7版本默认的sql配置是:sql_mode="ONLY_FULL_GROUP_BY"，这个配置严格执行了"SQL92标准"。
+
+解决方法：
+
++ 很多从5.6升级到5.7时，为了语法兼容，大部分都会选择调整sql_mode，使其保持跟5.6一致，为了尽量兼容程序。
+
+  ```
+  查看sqlmode: select @@GLOBAL.sql_mode;
+  设置sqlmode:
+  set @@GLOBAL.sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+  这种方式是暂时解决，永久生效需要修改my.cnf配置文件。
+  ```
+
++ 使用ANY_VALUE（），MySQL会忽略每个名称组中的地址值的不确定性并接受查询

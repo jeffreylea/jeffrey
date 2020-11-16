@@ -98,3 +98,32 @@ Collections.swap(list):[test3, test4, test5, test2, test1]
 Collections.rotate(list):[test1, test3, test4, test5, test2]
 ```
  明白单词的意思，很容易记下Collections工具中排序方法的使用。
+
+
+
+List分组：
+
+```
+public Map<String, List<Student>> groupList(List<Student> students) {
+    Map<String, List<Student>> map = new Hash<>();
+    for (Student student : students) {
+        List<Student> tmpList = map.get(student.getName());
+        if (tmpList == null) {
+            tmpList = new ArrayList<>();
+            tmpList.add(student);
+            map.put(student.getName(), tmpList);
+        } else {
+            tmpList.add(student);
+        }
+    }
+    return map;
+}
+```
+
+```
+public Map<String, List<Student>> groupList(List<Student> students) {
+    Map<String, List<Student>> map = students.stream().collect(Collectors.groupingBy(Student::getName));
+    return map;
+}
+```
+

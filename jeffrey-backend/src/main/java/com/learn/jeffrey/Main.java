@@ -1,6 +1,9 @@
 package com.learn.jeffrey;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -14,7 +17,8 @@ import java.util.Scanner;
  **/
 public class Main {
     public static void main(String[] args) throws IOException {
-        System.out.println(test_7());
+        String path = "C:\\Users\\lijianfei\\Desktop\\DeviceAgentMonitor\\DeviceAgentMonitor_2.0_20190605_20190605101912.apk";
+        System.out.println(DigestUtils.md5Hex(new FileInputStream(path)));;
     }
 
     public static int test_7() {

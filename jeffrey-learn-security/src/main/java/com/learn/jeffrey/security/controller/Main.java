@@ -13,7 +13,4 @@ public class Main {
        String s=new BCryptPasswordEncoder().encode("123");
         System.out.println(s);
     }
-
-
-
 }
