@@ -18,7 +18,7 @@ setting ->edit ->general，拉到soft wrap标题中，勾选soft-wrap files，�
  *@Author ${USER}
  *@Date ${DATE} ${TIME}
 **/
-```
+ ```
 再次创建类时就会生成作者和时间信息。也可以自定义模板，但要在类文件中设置下，设置方式：setting ->edit ->file and code template，选择file，选择class，可以看到模板信息，把模板信息中的#parse("File Header.java")改为自定义的名称，默认的名称是File Header.java。
 
 # idea中properties文件不显示中文或乱码问题
@@ -50,6 +50,16 @@ File->settings->Editor->general->code completion,取消勾选match case，这个
 
 # idea 自动导入类设置
 Editor>General>Auto Import，勾选上add unambiguous imports on the fly选项，应用后会自动导入对应的类，Optimize imports on the fly选项勾选后，可以帮助我们去掉不需要的类
+
+
+
+idea2020.1激活：
+
+http://fls.jetbrains-agent.com
+
+
+
+参考：https://blog.csdn.net/Du939/article/details/106518131/
 
 
 

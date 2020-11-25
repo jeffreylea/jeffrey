@@ -383,6 +383,7 @@ public class DateFormatUtils extends org.apache.commons.lang3.time.DateFormatUti
      */
     public static String[] getStartAndEndTimeByStatisticsWay(String statisticsWay) {
 
+        SimpleDateFormat sd  = new SimpleDateFormat(DateFormatEnum.YMDHMS_SEPERATED.getFormat());
         DateTimeFormatter df = DateTimeFormatter.ofPattern(DateFormatEnum.YMDHMS_SEPERATED.getFormat());
         LocalDateTime startTime = LocalDateTime.now();
         LocalDateTime endTime = LocalDateTime.now();

@@ -1,12 +1,21 @@
 package com.learn.jeffrey.test.basic;
 
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.digest.MD5;
+import cn.hutool.crypto.symmetric.DES;
+import cn.hutool.crypto.symmetric.DESede;
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import com.learn.jeffrey.utils.EncryptUtils;
 import lombok.SneakyThrows;
+import org.apache.commons.codec.digest.Md5Crypt;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -37,7 +46,6 @@ public class Test {
     private String value6 = "q";
     private String value7 = "q";
 
-
     private static synchronized void increaceValue2() {
         value2++;
     }
@@ -50,17 +58,20 @@ public class Test {
     /**
      * @param args
      */
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
+
+        DES des = new DES("IKWLgczsuSwpDhKjeH8YLa4Bd7EU5s35".getBytes());
+        byte[] a = des.decrypt("330ac00d58764bf3a1aac212201bd5f6");
+        System.out.println(new String(a));
+
+        Map<String, String> map = System.getenv();
+        System.out.println(map);
         Stack<Integer> stack;
         List<A> aList = new ArrayList<A>();
-        A a=new A();
-        B b=new B();
 
-        aList.add(a);
-        aList.add(b);
         for (A item : aList) {
             System.out.println(item.getClass() + ":" + item.toString());
-            if (item instanceof B){
+            if (item instanceof B) {
                 System.out.println(((B) item).name);
             }
             // class atest.A:A [name=a1]
@@ -68,20 +79,22 @@ public class Test {
         }
     }
 
-    static class A{
-        int age=12;
+    static class A {
+        int age = 12;
     }
-    static class B extends A{
+
+    static class B extends A {
         String name = "w";
     }
+
     public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         while (l1 != null) {
-            while (l2!=null){
+            while (l2 != null) {
                 if (l1.val > l2.val) {
 
-                    l2=l2.next;
-                }else {
-                    l1=l1.next;
+                    l2 = l2.next;
+                } else {
+                    l1 = l1.next;
                 }
             }
 
