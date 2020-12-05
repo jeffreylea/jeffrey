@@ -301,6 +301,4 @@ spec: #specification of the resource content 指定该资源的内容
     #nfs
 ```
 
-```
-
-```
++ 
