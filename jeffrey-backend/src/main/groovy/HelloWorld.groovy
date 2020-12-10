@@ -1,6 +1,5 @@
-class hello{
-    static void main(String[] args) {
-        println("ceshi")
-    }
+var = "hello world"
+println var
+for ( i = 0; i < 10; i++) {
+    print i
 }
-

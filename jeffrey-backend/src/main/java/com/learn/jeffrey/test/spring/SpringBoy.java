@@ -22,6 +22,10 @@ public class SpringBoy implements BeanNameAware, BeanFactoryAware, InitializingB
         this.name = name;
     }
 
+    public String getBeanName(){
+        return this.name;
+    }
+
     public SpringBoy(){
         System.out.println("1、构造方法");
     }

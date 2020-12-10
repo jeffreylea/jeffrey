@@ -13,7 +13,7 @@ import javax.swing.*;
  **/
 @Data
 public class User implements BeanNameAware {
-    String name;
+    public String name;
 
     String beanname;
 

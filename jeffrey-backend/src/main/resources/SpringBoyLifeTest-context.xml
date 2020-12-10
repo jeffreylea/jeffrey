@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" default-lazy-init="false">
     <!--生命周期运行过程练习-->
-    <bean id="SpringBpoy" class="com.learn.jeffrey.test.spring.SpringBoy" init-method="init"
+    <bean id="SpringBoy" class="com.learn.jeffrey.test.spring.SpringBoy" init-method="init"
           destroy-method="selfDestroy">
         <property name="name" value="建飞"></property>
     </bean>

@@ -122,6 +122,11 @@
 			<artifactId>zookeeper</artifactId>
 			<version>3.5.5</version>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.4.6</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -130,6 +135,18 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<compilerId>groovy-eclipse-compiler</compilerId>
+					<verbose>true</verbose>
+					<fork>true</fork>
+				</configuration>
+		</plugin>
 		</plugins>
 	</build>
 

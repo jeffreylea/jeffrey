@@ -5,6 +5,9 @@ import cn.hutool.crypto.digest.MD5;
 import cn.hutool.crypto.symmetric.DES;
 import cn.hutool.crypto.symmetric.DESede;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import cn.hutool.extra.spring.SpringUtil;
+import cn.hutool.system.SystemUtil;
+import com.learn.jeffrey.test.spring.User;
 import com.learn.jeffrey.utils.EncryptUtils;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.Md5Crypt;
@@ -59,24 +62,14 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-
-        DES des = new DES("IKWLgczsuSwpDhKjeH8YLa4Bd7EU5s35".getBytes());
-        byte[] a = des.decrypt("330ac00d58764bf3a1aac212201bd5f6");
-        System.out.println(new String(a));
-
-        Map<String, String> map = System.getenv();
-        System.out.println(map);
-        Stack<Integer> stack;
-        List<A> aList = new ArrayList<A>();
-
-        for (A item : aList) {
-            System.out.println(item.getClass() + ":" + item.toString());
-            if (item instanceof B) {
-                System.out.println(((B) item).name);
-            }
-            // class atest.A:A [name=a1]
-            // class atest.B:B [name=b1, sex=true]
-        }
+        System.out.println(SystemUtil.getUserInfo());;
+        User test = SpringUtil.getBean(User.class);
+        System.out.println(test);
+        test11();
+    }
+    static void test11(String... strings){
+        System.out.println(strings.getClass());
+        System.out.println(strings);
     }
 
     static class A {
