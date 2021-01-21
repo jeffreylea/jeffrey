@@ -94,3 +94,14 @@ B-tree
 登陆mysql：mysql -uroot -pXXXXX
 执行：show variables like "%max_connections%";
 命令行修改最大连接数为1000： set global max_connections = 1000;
+
+```
+# 查看时区
+show variables like '%time_zone'
+# 设置时区
+set time_zone='+8:00';
+
+```
+
+
+

@@ -11,4 +11,8 @@
   三级缓存->defalutSingleton-
 
   set-可以解决，构造方法-没有办法解决循环依赖问题；实例化和初始化分开处理，提前暴露对象
+  
++ java安全编码网站
+
+  https://wiki.sei.cmu.edu/confluence/display/java/SEI+CERT+Oracle+Coding+Standard+for+Java
 

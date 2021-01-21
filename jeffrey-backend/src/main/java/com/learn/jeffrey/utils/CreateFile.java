@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 /**
- * Description <P></P>
+ * Description <P>生成固定大小文件</P>
  *
  * @Author lijianfei
  * @Date 2020/10/15 8:20

@@ -302,3 +302,4 @@ spec: #specification of the resource content 指定该资源的内容
 ```
 
 + kubectl version #查看k8s版本
++ kubectl apply -f time.yaml 部署文件

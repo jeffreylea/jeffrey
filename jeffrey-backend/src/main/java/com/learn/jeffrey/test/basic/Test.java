@@ -9,6 +9,8 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.system.SystemUtil;
 import com.learn.jeffrey.test.spring.User;
 import com.learn.jeffrey.utils.EncryptUtils;
+import lombok.Data;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.Md5Crypt;
 
@@ -16,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -62,10 +66,17 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) {
-        System.out.println(SystemUtil.getUserInfo());;
-        User test = SpringUtil.getBean(User.class);
-        System.out.println(test);
-        test11();
+
+        Student[] strings ={new Student(24,"lisi"),new Student(20,"zhangdan")};
+        Arrays.sort(strings);
+        Arrays.sort(strings, new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return 0;
+            }
+        });
+        System.out.println(strings);
+
     }
     static void test11(String... strings){
         System.out.println(strings.getClass());
@@ -74,6 +85,21 @@ public class Test {
 
     static class A {
         int age = 12;
+    }
+
+    @Data
+    public static class Student implements Comparable<Student>{
+        private  String userName;
+        private int age;
+
+        public Student(int age,String name){
+            this.age =age;
+            this.userName = name;
+        }
+        @Override
+        public int compareTo(Student o) {
+            return this.getAge() - o.getAge();
+        }
     }
 
     static class B extends A {

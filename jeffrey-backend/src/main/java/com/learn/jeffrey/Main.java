@@ -1,6 +1,8 @@
 package com.learn.jeffrey;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.bouncycastle.crypto.digests.SM3Digest;
+import org.springframework.security.crypto.codec.Hex;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -17,8 +19,11 @@ import java.util.Scanner;
  **/
 public class Main {
     public static void main(String[] args) throws IOException {
-        String path = "C:\\Users\\lijianfei\\Desktop\\DeviceAgentMonitor\\DeviceAgentMonitor_2.0_20190605_20190605101912.apk";
-        System.out.println(DigestUtils.md5Hex(new FileInputStream(path)));;
+        SM3Digest sm3 = new SM3Digest();
+        byte[] md = new byte[32];
+        sm3.update("123456".getBytes(), 0, "123456".getBytes().length);
+        sm3.doFinal(md, 0);
+        System.out.print(new String(Hex.encode(md)));
     }
 
     public static int test_7() {

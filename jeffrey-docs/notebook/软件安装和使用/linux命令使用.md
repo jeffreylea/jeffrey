@@ -135,6 +135,8 @@ gpasswd：为组添加用户，gpasswd -a user1 usergroup
 
 + grep是一个强大的文本搜索工具，能够使用正则表达式搜索文本，并把匹配的行打印出来。
 
+  打印匹配行的前后10行：grep -10
+
 + source命令（点命令）
 
   使修改的配置文件立即生效：source fileName或者. fileName
@@ -385,6 +387,135 @@ ssh-copy-id -i .ssh/id_rsa.pub root@serverA
 
 
 
+```
+# 查看文件系统磁盘使用情况df(disk free)
+df -h
+# 显示目录或文件的大小du(disk usage)
+du
+```
 
 
-信息发布：，远程控制，会控，设备管理，
+
+## 查看命令帮助信息
+
+```
+# 查看内部命令帮助，外部命令只能用man或info查看 
+help(选项)(参数)
+-s: 输出短格式的帮助信息。仅包括命令格式。
+
+# 判断一个命令是内部命令还是外部命令的方法，如内部命令，type会明确指出；如外部命令，会给出命令的执行路径
+type 
+
+# 查看一个命令执行什么功能
+whatis
+
+#查看info格式的帮助命令；
+info(选项)(参数)
+
+#查找并显示命令的绝对路径
+which(选项)(参数)
+
+#whereis 命令只能用于程序名的搜索，而且只搜索二进制文件（参数-b）、man 说明文件（参数-m）和源代码文件（参数-s）。如果省略参数，则返回所有信息
+whereis -b pwd
+
+# man 命令是 Linux 下的帮助指令
+man
+```
+
+## 用户管理相关命令
+
+参考http://c.biancheng.net/view/3042.html
+
+```
+# 创建用户组
+groupadd(选项)(参数)
+-g：指定新建工作组的id；
+-r：创建系统工作组，系统工作组的组ID小于500；
+-K：覆盖配置文件“/ect/login.defs”；
+-o：允许添加组ID号不唯一的工作组。
+groupadd -g 344 inspur
+
+# 修改用户组
+groupmod(选项)(参数)
+-g<群组识别码>：设置欲使用的群组识别码；
+-o：重复使用群组识别码；
+-n<新群组名称>：设置欲使用的群组名称。
+参数：组名：指定要修改的工作的组名。
+groupmod  jeffrey -n inspur
+
+# 删除用户组
+groupdel(参数)
+groupdel inspur
+
+# 添加用户，不指定用户组时会创建同名用户组
+useradd
+
+# 新建用户加入inspur组
+ useradd jeffrey01 -g inspur
+ 
+# 修改用户的基本信息，将用户jeffrey02添加到用户组inspur;并查看用户组inspur下的用户
+usermod(选项)(参数)
+-c<备注>：修改用户帐号的备注文字；
+-d<登入目录>：修改用户登入时的目录；
+-e<有效期限>：修改帐号的有效期限；
+-f<缓冲天数>：修改在密码过期后多少天即关闭该帐号；
+-g<群组>：修改用户所属的群组；
+-G<群组>；修改用户所属的附加群组；
+-l<帐号名称>：修改用户帐号名称；
+-L：锁定用户密码，使密码无效；
+-s<shell>：修改用户登入后所使用的shell；
+-u<uid>：修改用户ID；
+-U:解除密码锁定。
+usermod jeffrey02 -g inspur
+grep inspur /etc/group
+grep 727 /etc/passwd
+
+# 删除用户
+
+```
+
+## linux目录
+
+```
+Linux 的文件系统层次标准（FHS）
+/bin目录：存放所有核心系统二进制文件
+/boot:存储了计算机启动所需要的东西，其中最重要的是引导程序和内核，
+/dev:存储类似文件的对象来表示被系统识别为设备的各种东西。
+/etc目录：用来存放系统的主要配置文件，
+/home:用户个人文件所在的位置
+/lib:系统运行的依赖库
+/media:访问像 USB 闪存驱动器或摄像机这样的可移动媒体
+/proc:动态显示系统数据的虚拟文件系统
+/tmp:用户放置缓存等临时信息。
+```
+
+## 配置相关
+
+```
+#设置系统编码
+vim /etc/locale.conf
+添加
+LANG="zh_CN.UTF-8"
+使用source /etc/locale.conf，执行命令使配置生效
+查看系统编码命令：
+locale
+
+#设置静态IP地址
+查看网卡信息并获取网卡名称：
+ifconfig
+修改网卡配置文件：
+vim /etc/sysconfig/network-scripts/ifcfg-ens33
+
+BOOTPROTO=static #这里讲dhcp换成static
+ONBOOT=yes #将no换成yes
+#新增（黄色为举例数据，具体视部署情况而定）
+IPADDR=192.168.240.240 #静态IP
+GATEWAY=192.168.240.2 #默认网关
+NETMASK=255.255.255.0 #子网掩码
+
+重启网络服务，命令：systemctl restart network.service
+
+```
+
+
+

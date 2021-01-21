@@ -66,3 +66,21 @@ git fetch
 
 git pull =git fetch+ git merge
 
+```
+#查看git配置信息
+git config --global --list
+
+#查看git提交历史
+git log
+
+# 查看git提交历史，显示每次提交所引入的差异
+git log -p
+
+# 本地提交指定远程master分支
+git push origin HEAD:master
+
+# 本地提交到远程同名分支并使用-u参数设置默认提交远程同名分支
+git push -u origin HEAD
+
+```
+

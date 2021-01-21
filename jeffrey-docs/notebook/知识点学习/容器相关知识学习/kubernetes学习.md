@@ -1,4 +1,33 @@
++ k8s部署mysql时使用configMap
 
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-configmap
+  namespace: ai-screen-dev
+data:
+  mysqld.cnf: |-
+    [mysqld]
+    skip-name-resolve
+    character_set_server=utf8
+    innodb_buffer_pool_size=1G
+    sync_binlog=0
+    lower_case_table_names=1
+    innodb_file_per_table=1
+    max_connections=301
+    back_log=150
+    max_user_connections=150
+    innodb_flush_log_at_trx_commit=2
+    innodb_log_files_in_group=3
+    slow_query_log=1
+    long_query_time=2
+    slow_query_log_file=/var/log/mysql/slow.log
+    innodb_log_file_size=128M
+    sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
+参考：https://www.cnblogs.com/yuhaohao/p/13474826.html
+```
 
 
 
@@ -42,5 +71,10 @@ kubectl scale --replicas=2 deployment/iot-devicemanager -n ai-screen-dev
 
 #强制删除pod，--grace-period参数指定删除延迟时间，--force表示强制删除
 kubectl delete pods iot-devicemanager-test-5bc4775ccd-vsgfl --grace-period=0 --force -n ai-screen-test
+
+# 查看pod资源，非常详细
+kubectl describe 
+
+
 
 ```
