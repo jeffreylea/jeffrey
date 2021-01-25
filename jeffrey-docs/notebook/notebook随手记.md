@@ -1,5 +1,4 @@
-Visio图形模板
-http://www.visiocafe.com/
+
 
 # java开发中出现错误：Value '0000-00-00 00:00:00' can not be represented as java.sql.Timestamp  
 数据库字段类型为datatime，为空时默认Value '0000-00-00 00:00:00',在mysql中作为一个特殊值存在。但是在java项目编译的时候会被视为不合法的值，被JVM认为格式不正确。有些地方说datatime的范围是1000-01-01 00:00:00 到 9999-12-31 23:59:59，但0000-00-00 00:00:01也是可以的
@@ -298,56 +297,7 @@ protected <T> RunnableFuture<T>	newTaskFor(Callable<T> callable){};
 }
 ```
 
-# VM-centos网络配置：
-从虚拟机的编辑->虚拟网络编辑器中查看网关地址：192.168.95.2
-编辑文件：vi /etc/sysconfig/network-scripts/ifcfg-eth0
-设置网络:
-     DEVICE=eth0
-     TYPE=Ethernet
-     ONBOOT=yes
-     NM_CONTROLLED=yes
-     BOOTPROTO=static
-     IPADDR=192.168.95.10
-     NATMASK=255.255.255.0
-     GATEWAY=192.168.95.2
-service network restart 重启网络。此时可以检测网络
-ping 192.168.95.2;
-ping 192.168.95.10;
-设置dns:
-vi /etc/resolv.conf
-nameserver 114.114.114.114
-检测是否成功：ping www.baidu.com
 
-1、克隆之后的操作系统需要重新分配物理地址
-a、删除/etc/sysconfig/network-scripts/ifcfg-eth0 文件中的物理地址
-删除两行：UUID 和物理地址
-b、删除文件/etc/udev/rules.d/70-persistent-net.rules
-rm -rf /etc/udev/rules.d/70-persistent-net.rules
-然后修改主机名，重新配置网络，init6重启
-
-1.	安装mysql 数据库
-sudo yum install -y mysql-server
-2.	数据库字符集的设置（命令：sudo vi /etc/my.cnf）
-在/etc/my.cnf文件中最后加入default-character-set=utf8 
-3.	启动 mysql 服务
-sudo service mysqld start
-sudo service mysqld status  //查看mysql是否启动
-sudo chkconfig mysqld on  //设置mysql开机自动启动
-4.	设置 mysql 的 root 密码为123456
-mysql -uroot -p
-Enter password:           //默认密码为空，输入回车即可
-mysql>set password for root@localhost=password('inspur');  //密码设置为pwd
-mysql>quit
-
-mysql不允许外部主机连接解决方法：
-登陆数据库：mysql -uroot -p 
-默认密码为空。use mysql;
-update user set host='%' where user='root';
-service mysqld restart即可解决
-
-卸载mysql:
-查找已经安装的mysql：rpm -qa|grep mysql
-yum -y remove XX 已经安装的mysql
 
 centos6.5安装mysql5.7过程
 -------------
@@ -356,7 +306,6 @@ yum install mysql-community-release-el6-5.noarch.rpm
 安装成功后，我们可以看到/etc/yum.repos.d/目录下增加了以下两个文件
 mysql-community.repo、mysql-community-source.repo
 
-
 查看mysql57的安装源是否可用，如不可用请自行修改配置文件（/etc/yum.repos.d/mysql-community.repo）使mysql57下面的enable=1
 yum repolist enabled | grep mysql
 安装mysql5.7:
@@ -364,23 +313,8 @@ yum install mysql-community-server
 
 
 
-Linux文件系统：
-      |---/bin 存放二进制可执行文件(ls,cat,mkdir),常用的一些命令都在这里。
-      |---/etc 存放系统管理和配置文件
-root--|---/home 用户文件根目录
-      |---/usr 用户存放系统应用程序
-      |---/opt 额外安装的可选安装应用程序包
-      |---/proc 虚拟文件系统目录，是系统内存的映射，可直接访问这个文件获取系统信息
-      |---/root 超级用户的主目录
-      |---/sbin 存放二进制可执行文件，只有root才能访问，系统管理员使用的系统级别的命令和程序
-      |---/dev 用于存放设备文件
-      |---/mnt 系统管理员安装临时文件系统的安装点，系统提供这个目录是让用户临时挂载其他的文件系统。
-      |---/boot 存放用于系统引导时使用的各种文件
-      |---/lib 存放着和系统运行相关的库文件
-      |---/tmp 用于存放各种临时文件，是公用的临时文件存储点
-      |---/lib 用于存放运行时需要改变数据的文件，也是某些大文件的溢出区，比方说各种服务的日志文件（系统启动日志等。）等
-      |---/lost+found 这个目录平时是空的，系统非正常关机而留下“无家可归”的文件（windows下叫什么.chk）就在这里。
-      
+
+​      
 centos yum 安装JDK：
 ---------
 1.yum search java| grep jdk
