@@ -101,6 +101,8 @@ show variables like '%time_zone'
 # 设置时区
 set time_zone='+8:00';
 
+flush privileges
+
 ```
 
 

@@ -1,4 +1,4 @@
-查看系统内核：  
+​	查看系统内核：  
 uname -r
 默认版本是2.6,网上建议docker在内核3.1以上版本运行。在2.6下直接用yum install docker-io安装是不行的，提示没有包，于是：
 直接用下载源安装：  
@@ -303,3 +303,147 @@ spec: #specification of the resource content 指定该资源的内容
 
 + kubectl version #查看k8s版本
 + kubectl apply -f time.yaml 部署文件
+
+### 利用VMWare搭建Kubernetes集群
+
++ 参考资料
+
+  ```
+  https://www.cnblogs.com/paul8339/p/12938221.html
+  https://ke.qq.com/course/379938?taid=2934283002301474
+  ```
+
++ 准备环境
+
+  ```
+  准备3台机器，master，slave1，slave2
+  集群中所有机器之间网络互通
+  可以访问外网，需要拉取镜像
+  禁止swap分区
+  
+  #关闭防火墙
+  systemctl status firewalld
+  systemctl disable firewalld
+  
+  #查看SELinux状态
+  /usr/sbin/sestatus -v ##如果SELinux status参数为enabled即为开启状态
+  
+  #关闭selinux：
+  sed -i 's/enforcing/disabled/' /etc/selinux/config 
+  setenforce 0
+  
+  #关闭swap
+  swapoff -a  //临时关闭
+  vi /etc/fstab   #永久关闭，删除swap配置哪一行
+  
+  #添加主机名与IP对应关系（记得设置主机名）：
+  cat /etc/hosts
+  192.168.95.10 k8s-master
+  192.168.95.11 k8s-node1
+  192.168.95.12 k8s-node2
+  
+  将桥接的IPv4流量传递到iptables的链：
+  $ cat > /etc/sysctl.d/k8s.conf << EOF
+  net.bridge.bridge-nf-call-ip6tables = 1
+  net.bridge.bridge-nf-call-iptables = 1
+  EOF
+  $ sysctl --system
+  ```
+
++ 安装docker/kubeadm/kubelet
+
+  参考： https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+```
+添加阿里云YUM软件源
+$ cat > /etc/yum.repos.d/kubernetes.repo << EOF
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF
+
+1、3台机器分别安装好docker
+安装docker
+# Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker 。
+#通过 uname -r 命令查看你当前的内核版本
+uname -r
+
+#更新yum，确保 yum 包更新到最新
+yum update
+
+#安装wget,为了下载阿里云yum源
+yum install wget
+
+#设置阿里云yum源(可以先把CentOS-Base.repo备份成CentOS-Base.repo.bak,会覆盖此文件)
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+
+#安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的
+yum install -y yum-utils device-mapper-persistent-data lvm2
+#设置docker-ce安装yum源
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+#查看所有仓库中所有docker版本
+yum list docker-ce --showduplicates | sort -r
+
+#安装docker
+yum install docker-ce #默认安装最新版
+yum install docker-ce-17.12.0.ce #安装指定版本
+
+#查看docker运行状态：
+service docker status
+#启动docker
+service docker start
+systemctl start docker.service
+#设置开机启动
+systemctl enable docker.service
+
+2、3台机器分别安装kubeadm/kubelet/kubectl
+由于版本更新频繁，这里指定版本号部署：
+yum install -y kubelet-1.14.0 kubeadm-1.14.0 kubectl-1.14.0
+systemctl enable kubelet
+
+3、部署Kubernetes Master
+在192.168.95.10（Master）执行：
+kubeadm init \
+  --apiserver-advertise-address=192.168.95.10 \
+  --image-repository registry.aliyuncs.com/google_containers \
+  --kubernetes-version v1.14.0 \
+  --service-cidr=10.1.0.0/16 \
+  --pod-network-cidr=10.244.0.0/16
+  4、安装Pod网络插件（CNI）
+  kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml
+  
+#出现错误error: SchemaError(io.k8s.api.apps.v1beta1.DeploymentStatus): invalid object doesn't have additional properties
+
+#机器重启之后报错，重新执行kubectl命令报错：The connection to the server localhost:8080 was refused - did you specify the right host or port?
+重新初始化
+kubeadm reset
+kubeadm init \
+  --apiserver-advertise-address=192.168.95.10 \
+  --image-repository registry.aliyuncs.com/google_containers \
+  --kubernetes-version v1.14.0 \
+  --service-cidr=10.1.0.0/16 \
+  --pod-network-cidr=10.244.0.0/16
+  参考：https://www.cnblogs.com/CoderLinkf/p/12410749.html
+  
+  
+  
+  
+  
+```
+
+
+
++ 加入kubernates node
+
+  ```
+  # 在安装kubernetes master时，集群初始化后成功返回如下信息，在所有节点执行如下命令：
+  kubeadm join 192.168.95.10:6443 --token 8v851r.1jq37d1lf48ugb3f  --discovery-token-ca-cert-hash sha256:1a3540d8078aa07de5952608cb81dc0fe29d99f815864ab39ec0074e57cd3cd2
+  
+  ```
+
+  
