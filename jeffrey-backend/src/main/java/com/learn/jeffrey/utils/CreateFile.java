@@ -14,7 +14,7 @@ import java.nio.channels.FileChannel;
  * @Date 2020/10/15 8:20
  **/
 public class CreateFile {
-    static final Long length = 1*1024*1024*1024L;
+    static final Long length = 2*1024*1024*1024L-10;
     public static void main(String[] args) throws IOException
     {
         String filePath = "D:\\temp\\api-auto-test\\10000-files";
@@ -23,7 +23,7 @@ public class CreateFile {
             file.mkdirs();
         }
         long start = System.currentTimeMillis();
-            File f = new File(filePath,"test.zip");
+            File f = new File(filePath,"test2G.zip");
             if(!f.exists()){
                 createFile(f,length);
             }
@@ -61,7 +61,6 @@ public class CreateFile {
             }
         }
     }
-
     private static void createFile(File file, long length) throws IOException {
         RandomAccessFile ff = null;
         try{

@@ -1,4 +1,4 @@
-​	查看系统内核：  
+	查看系统内核：  
 uname -r
 默认版本是2.6,网上建议docker在内核3.1以上版本运行。在2.6下直接用yum install docker-io安装是不行的，提示没有包，于是：
 直接用下载源安装：  
@@ -311,6 +311,7 @@ spec: #specification of the resource content 指定该资源的内容
   ```
   https://www.cnblogs.com/paul8339/p/12938221.html
   https://ke.qq.com/course/379938?taid=2934283002301474
+  https://blog.51cto.com/13555423/2440608
   ```
 
 + 准备环境
@@ -401,6 +402,15 @@ systemctl start docker.service
 #设置开机启动
 systemctl enable docker.service
 
+#配置加速器等配置，vim /etc/docker/daemon.json
+#镜像加速器地址：https://cr.console.aliyun.com/cn-shanghai/instances/mirrors
+{
+ "registry-mirrors": ["https://sanen8ui.mirror.aliyuncs.com"],
+ "insecure-registries":["192.168.95.10:5000"],
+ "exec-opts": ["native.cgroupdriver=systemd"]
+ }
+
+
 2、3台机器分别安装kubeadm/kubelet/kubectl
 由于版本更新频繁，这里指定版本号部署：
 yum install -y kubelet-1.14.0 kubeadm-1.14.0 kubectl-1.14.0
@@ -414,10 +424,30 @@ kubeadm init \
   --kubernetes-version v1.14.0 \
   --service-cidr=10.1.0.0/16 \
   --pod-network-cidr=10.244.0.0/16
+  
+  
+ #成功提示信息如下：
+ To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.95.10:6443 --token whhnqr.umhr6136qjve9v5p \
+    --discovery-token-ca-cert-hash sha256:a6e57596be4c75f40f9cb9d18cc80baa1beb1e623bc7c6fdc5ba12ef3491d20c
+    
   4、安装Pod网络插件（CNI）
   kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml
   
 #出现错误error: SchemaError(io.k8s.api.apps.v1beta1.DeploymentStatus): invalid object doesn't have additional properties
+解决：之前安装过minikube，使用的版本是kubectl1.10，二进制文件是在/usr/local/bin/kubectl这个目录下，直接执行kubectl就是找的这个目录，之后安装的kubectl1.14版本二进制文件是在/usr/bin/kubectl这里，没有生效，将/usr/bin/kubectl这个目录下的kubectl复制到/usr/local/bin/kubectl，就可以了。这是由于版本不同引起的问题。
+参考：https://www.bookstack.cn/read/kubernetes-practice-guide/troubleshooting-cases-schemaerror-when-using-kubectl-apply-or-edit.md
 
 #机器重启之后报错，重新执行kubectl命令报错：The connection to the server localhost:8080 was refused - did you specify the right host or port?
 重新初始化
@@ -430,7 +460,7 @@ kubeadm init \
   --pod-network-cidr=10.244.0.0/16
   参考：https://www.cnblogs.com/CoderLinkf/p/12410749.html
   
-  
+ #出现错误  [ERROR Port-10252]: Port 10252 is in use
   
   
   
@@ -443,6 +473,72 @@ kubeadm init \
   ```
   # 在安装kubernetes master时，集群初始化后成功返回如下信息，在所有节点执行如下命令：
   kubeadm join 192.168.95.10:6443 --token 8v851r.1jq37d1lf48ugb3f  --discovery-token-ca-cert-hash sha256:1a3540d8078aa07de5952608cb81dc0fe29d99f815864ab39ec0074e57cd3cd2
+  #kubelet启动报错，join成功后会自动启动并生成主要配置文件：
+  # 同时要注意kubelet版本是否与集群一致，不一致可能会join不到集群中
+#参考：
+  https://bbs.huaweicloud.com/blogs/158024
+  
+  
+  #加入node报错：error execution phase preflight: couldn't validate the identity of the API Server: abort connecting to API servers after timeout of 5m0s
+  可能由于token过期，需要重新生成，步骤如下：
+  主节点执行命令：
+  kubeadm token create
+  会生成token，如：whhnqr.umhr6136qjve9v5p
+  执行命令：
+  openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
+  会生成sha256：a6e57596be4c75f40f9cb9d18cc80baa1beb1e623bc7c6fdc5ba12ef3491d20c
+  在node节点再次join即可：
+  kubeadm join 192.168.95.10:6443 --token whhnqr.umhr6136qjve9v5p     --discovery-token-ca-cert-hash sha256:a6e57596be4c75f40f9cb9d18cc80baa1beb1e623bc7c6fdc5ba12ef3491d20c
+  ```
+  
++ 测试kubernetes集群
+
+  ```
+  在Kubernetes集群中创建一个pod，验证是否正常运行：
+  $ kubectl create deployment nginx --image=nginx
+  $ kubectl expose deployment nginx --port=80 --type=NodePort
+  $ kubectl get pod,svc
+  访问地址：http://NodeIP:Port
+  ```
+
++ 部署 Dashboard
+
+  ```
+  #执行命令：
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+  
+  由于上面镜像网络访问限制，需要修改下镜像地址：lizhenliang/kubernetes-dashboard-amd64:v1.10.1
+  
+  wget https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+  
+  #默认Dashboard只能集群内部访问，修改Service为NodePort类型，暴露到外部：
+  kind: Service
+  apiVersion: v1
+  metadata:
+    labels:
+      k8s-app: kubernetes-dashboard
+    name: kubernetes-dashboard
+    namespace: kube-system
+  spec:
+    type: NodePort
+    ports:
+      - port: 443
+        targetPort: 8443
+        nodePort: 30001
+    selector:
+      k8s-app: kubernetes-dashboard
+      
+    #部署
+    kubectl apply -f kubernetes-dashboard.yaml
+    #访问，需要用https访问,chrome浏览器出现网络错误时，输入thisisunsafe即可跳转
+    https://NodeIP:30001
+    
+   # 创建service account并绑定默认cluster-admin管理员集群角色：
+  $ kubectl create serviceaccount dashboard-admin -n kube-system
+  $ kubectl create clusterrolebinding dashboard-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin
+  $ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | awk '/dashboard-admin/{print $1}')
+  
+  使用生成的token登陆。
   
   ```
 

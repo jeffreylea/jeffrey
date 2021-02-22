@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -67,15 +68,7 @@ public class Test {
      */
     public static void main(String[] args) {
 
-        Student[] strings ={new Student(24,"lisi"),new Student(20,"zhangdan")};
-        Arrays.sort(strings);
-        Arrays.sort(strings, new Comparator<Student>() {
-            @Override
-            public int compare(Student o1, Student o2) {
-                return 0;
-            }
-        });
-        System.out.println(strings);
+        System.out.println(String.valueOf(new Date().getTime()/1000));
 
     }
     static void test11(String... strings){

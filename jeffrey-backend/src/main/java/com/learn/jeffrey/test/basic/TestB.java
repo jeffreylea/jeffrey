@@ -6,6 +6,9 @@ package com.learn.jeffrey.test.basic;
  * @Author lijianfei
  * @Date 2021/2/19 18:49
  **/
-public interface TestB extends TestA{
-    
+public class TestB extends TestA{
+    @Override
+    int add() {
+        return 0;
+    }
 }

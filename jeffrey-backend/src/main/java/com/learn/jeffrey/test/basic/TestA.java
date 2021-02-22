@@ -6,5 +6,8 @@ package com.learn.jeffrey.test.basic;
  * @Author lijianfei
  * @Date 2021/2/19 18:48
  **/
-public interface TestA {
+public class TestA {
+    int add(){
+        return 0;
+    }
 }

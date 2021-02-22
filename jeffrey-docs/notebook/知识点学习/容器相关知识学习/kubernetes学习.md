@@ -62,7 +62,16 @@ data:
 参考：https://www.cnblogs.com/yuhaohao/p/13474826.html
 ```
 
++ ### kubernetes基础概念理解
 
+  ```
+   参考：
+   K8S核心组件和架构图：https://blog.csdn.net/weixin_38028611/article/details/103133316?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&dist_request_id=bc311be4-af50-400b-8234-bbec5a5d9261&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control
+   k8s主要概念和组件：https://blog.csdn.net/fangfu123/article/details/105792826
+  
+  ```
+
+  
 
 | 单词与术语 |
 | ---------- |
@@ -111,3 +120,5 @@ kubectl describe
 
 
 ```
+
+# 
