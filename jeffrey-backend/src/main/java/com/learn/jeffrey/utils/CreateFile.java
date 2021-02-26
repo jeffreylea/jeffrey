@@ -19,6 +19,7 @@ public class CreateFile {
     {
         String filePath = "D:\\temp\\api-auto-test\\10000-files";
         File file = new File(filePath);
+
         if(!file.exists()){
             file.mkdirs();
         }

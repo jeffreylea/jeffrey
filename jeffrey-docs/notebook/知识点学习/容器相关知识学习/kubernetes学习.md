@@ -71,6 +71,19 @@ data:
   
   ```
 
++ k8s常用命令
+
+  ```
+  #批量删除状态pod
+  kubectl get pods -n <Namespace> | grep Evicted | awk '{print $1}' | xargs kubectl delete pod -n <Namespace>
+  
+  kubectl get pods -n <Namespace> 获取指定 Namespace 下的所有 Pods
+  grep <status> 筛选出指定状态的 Pods
+  awk '{print $1}' 取 Pod 的 Name
+  xargs kubectl delete pod -n <Namespace> 传递 Pod's Name 用于删除 Pod
+  
+  ```
+
   
 
 | 单词与术语 |

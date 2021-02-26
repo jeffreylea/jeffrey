@@ -7,6 +7,7 @@ import cn.hutool.crypto.symmetric.DESede;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.system.SystemUtil;
+import com.learn.jeffrey.config.Log;
 import com.learn.jeffrey.test.spring.User;
 import com.learn.jeffrey.utils.EncryptUtils;
 import lombok.Data;
@@ -14,16 +15,32 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.Md5Crypt;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Stack;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -66,12 +83,44 @@ public class Test {
     /**
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, CloneNotSupportedException, IOException {
+       List<Integer> list = new ArrayList<>();
+       list.add(1);
+        Collections.synchronizedList(list);
+        HashMap hashMap = new HashMap();
+    }
 
-        System.out.println(String.valueOf(new Date().getTime()/1000));
+    static void test3() throws ClassNotFoundException {
+        Class c = Class.forName("com.learn.jeffrey.test.basic.Test");
+        // 获取类的所有方法,包含父类继承来的方法
+        Method[] methods = c.getMethods();
+        int i = methods.length;
+        String s="ff";
+        s.length();
+        System.out.println(Arrays.toString(methods));
+
+        // 查找此类的所有的方法  不包含父类的继承来的方法
+        Method[] methods1 = c.getDeclaredMethods();
+
+        // 获取构造方法
+        Constructor[] constructor = c.getConstructors();
+        System.out.println(Arrays.toString(constructor));
+
+        // 获取此类中的所有字段
+        Field[] fields = c.getDeclaredFields();
+        System.out.println(Arrays.toString(fields));
+        for (Field s1 : fields) {
+            System.out.println(s1.getName());
+        }
+
+        int modifiers = c.getModifiers();
+        System.out.println(Modifier.toString(modifiers));
+        float f = 10f / 3f;
+        System.out.println(f);
 
     }
-    static void test11(String... strings){
+
+    static void test11(String... strings) {
         System.out.println(strings.getClass());
         System.out.println(strings);
     }
@@ -81,14 +130,15 @@ public class Test {
     }
 
     @Data
-    public static class Student implements Comparable<Student>{
-        private  String userName;
+    public static class Student implements Comparable<Student> {
+        private String userName;
         private int age;
 
-        public Student(int age,String name){
-            this.age =age;
+        public Student(int age, String name) {
+            this.age = age;
             this.userName = name;
         }
+
         @Override
         public int compareTo(Student o) {
             return this.getAge() - o.getAge();
