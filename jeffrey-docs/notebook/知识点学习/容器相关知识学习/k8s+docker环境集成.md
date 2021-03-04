@@ -542,4 +542,25 @@ kubeadm init \
   
   ```
 
+  + 容器镜像仓库选择
   
+    ```
+    Harbor介绍：
+    参考资料：https://blog.csdn.net/zhangjunli/article/details/107642592
+    harbor是一个用于存储和分发docker镜像的企业级registry服务器，harbor是由VMware公司开源的docker registry的管理项目，它以docker公司开源的registry为基础，帮助用户迅速搭建一个企业级的docker registry服务。harbor的所有组件都在docker中部署，所以harbor可以使用docker compose快速部署；Harbor是基于Docker Registry V2版本，所以docker必须大于等于1.10.0版本，docker-compose必须要大于1.6.0版本！
+    docker-compose：是docker官方的开源项目，负责实现docker容器集群的快速编排。
+    harbor的每个组件都是以docker容器的形式的构建的，
+    可以使用Docker Compose来进行部署。如果环境中使用了kubernetes，Harbor也提供了kubernetes的配置文件。Harbor大概需要以下几个容器组成：
+    ui(Harbor的核心服务)
+    log(运行着rsyslog的容器，进行日志收集)
+    mysql(由官方mysql镜像构成的数据库容器)
+    Nginx(使用Nginx做反向代理)
+    registry(官方的Docker registry)
+    adminserver(Harbor的配置数据管理器)
+    jobservice(Harbor的任务管理服务)
+    redis(用于存储session)
+    Artifactory介绍：
+    是一款maven仓库服务端软件，nexus也是maven仓库服务端软件
+    ```
+  
+    

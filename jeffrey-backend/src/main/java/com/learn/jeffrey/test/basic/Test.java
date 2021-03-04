@@ -10,10 +10,12 @@ import cn.hutool.system.SystemUtil;
 import com.learn.jeffrey.config.Log;
 import com.learn.jeffrey.test.spring.User;
 import com.learn.jeffrey.utils.EncryptUtils;
+import com.sun.javafx.scene.control.SizeLimitedList;
 import lombok.Data;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.digest.Md5Crypt;
+import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,12 +44,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -83,19 +91,39 @@ public class Test {
     /**
      * @param args
      */
-    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, CloneNotSupportedException, IOException {
-       List<Integer> list = new ArrayList<>();
-       list.add(1);
-        Collections.synchronizedList(list);
-        HashMap hashMap = new HashMap();
+    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, CloneNotSupportedException, IOException, ExecutionException, InterruptedException {
+        TestThread t0 = new TestThread();
+        t0.setName("线程t");
+        TestThread t1 = new TestThread();
+        t1.setName("线程t1");
+        Thread t2 = new Thread(t1);
+        t2.setName("线程t2");
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        };
+
+
+        ExecutorService pool = new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
+
+
+        for (int i = 0; i < 100; i++) {
+            pool.submit(t2);
+        }
+        pool.shutdown();
+
     }
+
 
     static void test3() throws ClassNotFoundException {
         Class c = Class.forName("com.learn.jeffrey.test.basic.Test");
         // 获取类的所有方法,包含父类继承来的方法
         Method[] methods = c.getMethods();
         int i = methods.length;
-        String s="ff";
+        String s = "ff";
         s.length();
         System.out.println(Arrays.toString(methods));
 

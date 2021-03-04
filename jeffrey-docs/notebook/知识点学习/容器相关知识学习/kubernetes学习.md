@@ -84,7 +84,57 @@ data:
   
   ```
 
++ kubectl config命令
+
+  ```
+  kubectl config命令管理kubeconfig文件，
+  ```
+
++ 组件
+
+  ```
+  etcd 保存了整个集群的状态，就是一个数据库，只有API Server能与其通信；
+  apiserver 提供了资源操作的唯一入口，并提供认证、授权、访问控制、API 注册和发现等机制；
+  controller manager 负责维护集群的状态，比如故障检测、自动扩展、滚动更新等;
+  scheduler 负责资源的调度，按照预定的调度策略将 Pod 调度到相应的机器上；
+  kubelet 负责维护容器的生命周期，同时也负责 Volume（CSI）和网络（CNI）的管理；
+  Container runtime 负责镜像管理以及 Pod 和容器的真正运行（CRI）;
+  kube-proxy 负责为 Service 提供 cluster 内部的服务发现和负载均衡；
+  除了上面的这些组件，还有一些第三方的组件：
   
+  kube-dns 负责为整个集群提供 DNS 服务
+  Ingress Controller 为服务提供外网入口
+  Heapster 提供资源监控
+  Dashboard 提供 GUI
+  组件之间的关系：
+  从上面图可以看到所有组件均是通过API Server进行通信，所以API Server就是一个中枢神经，在生产中我们会把master部署为多节点，做高可用。
+  etcd主要是存储集群里的信息，比如集群状态，集群的各Node信息等，只有API能与其通信，所以我们也会把etcd做高可用，etcd是一个单独的组件，一个应用软件，做高可用建议是奇数节点，比如3，5等，节点不应过多，因为节点过多，节点之间的数据同步是会有一定的开销，影响集群的性能。
+  Schduler负责整个集群的调度，它通过API Server来检测Node上Pod的状态，然后会根据定义的策略来调度pod并绑定Node。
+  Controller manager负责pod的控制，常见的比如定义了一个Pod为replicaSet，然后因为某些原因当前pod挂掉了，这时候Controller manager就会为你在Node上重启该Pod。
+  kubelet是Node上的组件，它会检测Node上的Pod，并将其状态更新到API Server。
+  kube-proxy主要是负责代理转发，主要控制service，并将sevice状态更新到API Server。
+  kubectl是集群的管理组件，主要也是调用API Server，然后进行整个集群的管理。
+  ```
+
+  + Helm使用
+
+    ```
+    可以将Helm看作Kubernetes下的apt-get/yum,Helm 是一个命令行下的客户端工具。主要用于 Kubernetes 应用程序 Chart 的创建、打包、发布以及创建和管理本地和远程的 Chart 仓库。
+    Helm 客户端安装:
+    方式一：使用官方提供的脚本一键安装:
+    curl https://raw.githubusercontent.com/helm/helm/master/scripts/get > get_helm.sh
+    $ chmod 700 get_helm.sh
+    $ ./get_helm.sh
+    
+    方式二：手动下载安装:
+    #从官网下载最新版本的二进制安装包到本地：https://github.com/kubernetes/helm/releases
+    tar -zxvf helm-2.9.0.tar.gz # 解压压缩包
+    # 把 helm 指令放到bin目录下
+    mv helm-2.9.0/helm /usr/local/bin/helm
+    helm help # 验证
+    ```
+
+    
 
 | 单词与术语 |
 | ---------- |
