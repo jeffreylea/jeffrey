@@ -88,6 +88,27 @@ data:
 
   ```
   kubectl config命令管理kubeconfig文件，
+  
+  
+  cat .kube/config 
+  ---
+  apiVersion: v1
+  kind: Config
+  clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://10.110.25.74:8001
+    name: icp-cluster1
+  contexts:
+  - context:
+      cluster: icp-cluster1
+      user: admin
+  users:
+  - name: admin
+    user:
+      client-certificate: kubecfg.crt
+      client-key: kubecfg.key
+  
   ```
 
 + 组件

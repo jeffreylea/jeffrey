@@ -273,7 +273,7 @@ SynchronizedMap()和Hashtable一样，实现上在调用map所有方法时，都
   Executors工具类提供了创建四种类型的线程池：
   public static ExecutorService newFixedThreadPool(int nThreads);创建一个定长线程池，可控制最大并发数，超出的线程会在队列中等待，
   public static ExecutorService newCachedThreadPool();创建一个可缓存线程池，线程池为无限大，当线程池长度超过处理需要，可灵活回收空闲线程，
-public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize)；创建一个定长线程池，支持定时及周期性任务执行。
+public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize)；创建一个定长线程池，支持定时及周期性任务执行；；ScheduledFuture<?> schedule；；ScheduledFuture<?> scheduleAtFixedRate
   public static ExecutorService newSingleThreadExecutor（）；创建一个单线程的线程池，它只会用唯一的工作线程执行任务，保证所有任务按照指定顺序执行。
   ThreadPoolExecutor：继承了AbstractExecutorService，AbstractExecutorService实现了ExecutorService接口，也就是ThreadPoolExecutor实现了ExecutorService接口；
   在《阿里巴巴java开发手册》中指出：线程资源必须通过线程池提供，不允许在应用中自行显示的创建线程，一方面是线程创建更加规范，另一方面，线程的细节管理交给线程池，优化资源开销，线程池不允许使用executors创建，必须通过ThreadPoolExecutor方式，，这一方面是由于jdk中Executor框架虽然提供了如newFixedThreadPool()、newSingleThreadExecutor()、newCachedThreadPool()等创建线程池的方法，但都有其局限性，不够灵活；另外由于前面几种方法内部也是通过ThreadPoolExecutor方式实现，使用ThreadPoolExecutor有助于大家明确线程池的运行规则，创建符合自己的业务场景需要的线程池，避免资源耗尽的风险。
@@ -299,3 +299,27 @@ public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize)�
   在juc包下，这个接口只有一个方法，Thread newThread(Runnable r);
   ```
 
++ 线程池执行任务逻辑和线程池参数的关系
+
+  ```
+  判断核心线程是否已满，如果没有满，则创建核心线程执行任务，核心任务线程数和corePoolSize参数有关
+  若核心线程已满，判断队列是否已满，未满则则加入队列中，队列是否已满和workQueue参数有关
+  若队列已满，判断线程池是否已满，未满则创建非核心线程执行任务
+  如果线程池已满，按照策略处理无法执行的任务
+  ```
+
+![640?wx_fmt=other](https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz/JfTPiahTHJhrBCzPlVBeL40eOmbEjQeibc0Kf0OjdKwhMkbNS4Psciaug6CL1icJL6cwMGc8JyVAFibaftlF01um9jA/640?wx_fmt=other)
+
++ Future类
+
+  ```
+  Future表示可能还没执行完的异步执行的结果；CompletableFuture、RunnableFuture、ScheduledFuture接口继承了Future接口，ForkJoinTask抽象类实现了Future类
+  ```
+
++ 线程退出的几种方式：
+
+  ```
+  1、使用退出标志退出；退出标志使用volatile修饰，目的是使exit同步。也就是同一时刻只能有一个线程修改exit
+  ```
+
+  
