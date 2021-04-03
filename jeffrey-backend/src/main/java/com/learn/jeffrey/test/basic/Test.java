@@ -1,49 +1,25 @@
 package com.learn.jeffrey.test.basic;
 
-import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.digest.MD5;
-import cn.hutool.crypto.symmetric.DES;
-import cn.hutool.crypto.symmetric.DESede;
-import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
-import cn.hutool.extra.spring.SpringUtil;
-import cn.hutool.system.SystemUtil;
-import com.learn.jeffrey.config.Log;
-import com.learn.jeffrey.test.spring.User;
-import com.learn.jeffrey.utils.EncryptUtils;
-import com.sun.javafx.scene.control.SizeLimitedList;
 import lombok.Data;
-import lombok.Setter;
 import lombok.SneakyThrows;
-import org.apache.commons.codec.digest.Md5Crypt;
-import org.springframework.scheduling.annotation.AsyncResult;
+import org.apache.log4j.helpers.ThreadLocalMap;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.AbstractRefreshableWebApplicationContext;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.Queue;
+import java.util.Random;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -55,7 +31,8 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -92,31 +69,8 @@ public class Test {
      * @param args
      */
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, CloneNotSupportedException, IOException, ExecutionException, InterruptedException {
-        TestThread t0 = new TestThread();
-        t0.setName("线程t");
-        TestThread t1 = new TestThread();
-        t1.setName("线程t1");
-        Thread t2 = new Thread(t1);
-        t2.setName("线程t2");
-
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        };
-
-
-        ExecutorService pool = new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
-
-
-        for (int i = 0; i < 100; i++) {
-            pool.submit(t2);
-        }
-        pool.shutdown();
-
+        ReentrantLock reentrantLock = new ReentrantLock();
     }
-
 
     static void test3() throws ClassNotFoundException {
         Class c = Class.forName("com.learn.jeffrey.test.basic.Test");
