@@ -52,7 +52,7 @@
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
-            <version>2.3.2.RELEASE</version>
+            <version>2.3.6.RELEASE</version>
         </dependency>
         <!--是用jwt需导入此包，否则启动失败，
         ClassNotFoundException: org.springframework.security.jwt.crypto.sign.Signer
